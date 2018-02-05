@@ -66,31 +66,34 @@ Adicione o plugin
 - de https://addons.mozilla.org/pt-BR/firefox/addon/rested/
 
 # Passo 3 - Modificar mci-clientes-api
- Na classe cliente em mci-clientes-api
- 
- selecionar o campo codigo e apertar a combinação de teclas Ctrl+Shit+R  duas vezes
- Abrirá uma caixa de diálogo e marque "Rename getter" e "Rename setter"
- 
- Mude o nome de codigo para mci;
- 
+Na classe cliente em mci-clientes-api
+- selecionar o campo codigo e apertar a combinação de teclas Ctrl+Shit+R  duas vezes
+- Abrirá uma caixa de diálogo e marque "Rename getter" e "Rename setter"
+- mude o nome de codigo para mci;
+ ```
  private Integer codigo; 
- para 
- private Integer mci;
- 
- Faça de novo:
- Mude o nome de documentoIdentificacao para documento;
- private String documentoIdentificacao;
+ ```
  para
- private String documento;
+ ```
+ private Integer mci;
+ ```
+ Faça de novo:
+ - mude o nome de documentoIdentificacao para documento;
+```
+private String documentoIdentificacao;
+```
+para
+```
+private String documento;
+```
 
- 
 # Passo 4 - Inicio angularjs na aplicação Estatica
-
-
-adicione uma pasta app em /src/main/webapp/
+Adicione uma pasta app
+- em /src/main/webapp/
 
 Adicione arquivo index.html
 
+```
 <!DOCTYPE html>
 <html lang="pt-br" ng-app>
 <head>
@@ -111,20 +114,19 @@ Adicione arquivo index.html
     </div>
 </body>
 </html>
+```
 
-Resumo
+## Resumo
 O AngularJs é um framework MVC no lado do cliente. 
 
-Wiki-pédia:
-
+### Wiki-pédia:
+```
 Model-view-controller (MVC), em português modelo-visão-controlador, é um padrão de arquitetura de software (não confundir com um design pattern) que separa a representação da informação da interação do usuário com ele. O modelo (model) consiste nos dados da aplicação, regras de negócios, lógica e funções. Uma visão (view) pode ser qualquer saída de representação dos dados, como uma tabela ou um diagrama. É possível ter várias visões do mesmo dado, como um gráfico de barras para gerenciamento e uma visão tabular para contadores. O controlador (controller) faz a mediação da entrada, convertendo-a em comandos para o modelo ou visão. As ideias centrais por trás do MVC são a reusabilidade de código e separação de conceitos.
+```
 
 Criado como um projeto interno da Google e liberado para o público em 2009.
 
-Ele tem como foco a criação de Single Page Applications (SPAs).
-Este tipo de aplicação não recarrega a página durante o seu uso,
-o que dá uma experiência de fluidez para o usuário.
-
+Ele tem como foco a criação de Single Page Applications (SPAs). Este tipo de aplicação não recarrega a página durante o seu uso, o que dá uma experiência de fluidez para o usuário.
 
 # Passo 5 - Montando a aplicação principal clientes
 
