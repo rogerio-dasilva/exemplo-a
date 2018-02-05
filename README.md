@@ -139,32 +139,42 @@ Ele tem como foco a criação de Single Page Applications (SPAs). Este tipo de a
 Criar o arquivo app.js em /src/main/webapp/app/app.js
 
 conteudo:
+```
 angular.module('clientes', []);
+```
 
 alterar /src/main/webapp/app/index.html adicionar 
+```
 <script src="/mci-clientes/app/app.js"></script>
+```
 
 Este é o nosso módulo principal. Este ponto por onde nós interagirmos com o framework, sendo de escopo global.
 Ele recebe dois parâmetros. O primeiro o nome do módulo, o segundo o nome de todas as dependências que forem necessárias, 
 mas não temos nenhuma ainda.
 
 adicionamos o móduloa na tag html e atributo ng-app:
+```
 ng-app="clientes"
+```
 
 isso significa que todos os elementos filhos do html e o proprio html serão gerenciados pelo angularjs.
 
 ng-app é chamado de diretiva, esta não existe no html. As diretivas do angularjs ampliam novos vocabulários ao html, novos truques.
 
-
 # Passo 6 - Criando um Controller para clientes
 
 adicione novo arquivo em /src/main/webapp/app/controllers
+```
 clientes.controller.js
+```
 
 adicione a nova entrada em /src/main/webapp/app/index.html
+```
 <script src="/mci-clientes/app/controllers/clientes.controller.js"></script>
+```
 
 Conteudo:
+```
 angular.module('clientes')
 .controller('ClientesController', function(){
 	var cliente = {
@@ -173,9 +183,9 @@ angular.module('clientes')
 			'documento' : 123
 			};
 });
-
+```
 Vamos associoar este controller em um elemento do html. Neste caso colocaremos na tag body e modificaremos o seu conteúdo:
-
+```
 <body ng-controller="ClientesController">
     <div>
       MCI: {{cliente.mci}} <br/>
@@ -183,11 +193,12 @@ Vamos associoar este controller em um elemento do html. Neste caso colocaremos n
       Documento: {{cliente.documento}} <br/>
     </div>
 </body>
-
+```
 Ainda não funciona pois a variável cliente ainda está no escopo privado. Também não colocaremos no escopo global.
 Usaremos uma ponte de ligação do angular chamado $scope.
 
 Vamos modificar o controller
+```
 angular.module('clientes')
 .controller('ClientesController', function($scope){
 	$scope.cliente = {
@@ -196,18 +207,19 @@ angular.module('clientes')
 			'documento' : 123
 			};
 });
+```
 
 Agora devemos ver os dados que estão no Controller na View.
 Esta associação entre o controller e a view chamamos de data binding
 
 O que vimos até agora:
-o papel do modelo MVC
-o objeto global angular
-importação do angular e criação do módulo principal
-as diretivas ng-app e ng-controller
-angular expression (AE)
-criação do controller
-conceito de data-binding
+- o papel do modelo MVC
+- o objeto global angular
+- importação do angular e criação do módulo principal
+- as diretivas ng-app e ng-controller
+- angular expression (AE)
+- criação do controller
+- conceito de data-binding
 
 
 
