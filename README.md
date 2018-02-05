@@ -1,45 +1,46 @@
 # Passo 1 - Alterando o projeto
 
-Criar novo workspace2
-baixar o projeto mci-clientes-api e descompactar em kdi/workspace2/mci-clientes-api
-abrir /kdi/eclipse-jee-luna-SR2/eclipse
-na aba project explorer use o menu de contexto e escolha import -> import...
+## Criar novo workspace2
+Baixar o projeto mci-clientes-api e descompactar em kdi/workspace2/mci-clientes-api
+- abrir /kdi/eclipse-jee-luna-SR2/eclipse
+- na aba project explorer use o menu de contexto e escolha import -> import...
 
-procure por existing maven projects e depois clique em next
-clique browser, procure e selecione a pasta /kdi/workspace2/mci-clientes-api
-clique em finish
+Procure por existing maven projects e depois clique em next
+- clique browser, procure e selecione a pasta /kdi/workspace2/mci-clientes-api
+- clique em finish
 
 Apos termino da importação faça
-no projeto clique com menu de contexto, escolha: maven -> update project.. -> OK
-no projeto clique com menu de contexto, escolha: Run As -> maven project
-preencha em goals: clean package
-selecione: skip tests
-clique em run
+- no projeto clique com menu de contexto, escolha: maven -> update project.. -> OK
+- no projeto clique com menu de contexto, escolha: Run As -> maven project
+- preencha em goals: clean package
+- selecione: skip tests
+- clique em run
 
-obter o tomcat 7
-no site http://tomcat.apache.org/ navegque em Download -> tomcat 7
-baixe o arquivo tar.gz do tomcat 7.0.68 ou mais recente
+Obter o tomcat 7
+- no site http://tomcat.apache.org/ navegque em Download -> tomcat 7
+- baixe o arquivo tar.gz do tomcat 7.0.68 ou mais recente
 
-decompacte o arquivo baixado apache-tomcat-7.0.68.tar.gz em /kdi
+Decompacte o arquivo baixado apache-tomcat-7.0.68.tar.gz em /kdi
 
 No eclipse adicione o tomcat
-No menu Windows -> Preferences -> Server -> Runtime Environments
-Clique em add... escolha apache e depois Apache Tomcat V7.0 e em next
-clique em browse e procure a pasta /kdi/apache-tomcat-7.0.68 e clique em OK -> Finish -> OK
-Procure a aba Servers e clique para adicionar um servidor
-Escolha Tomcat 7 e next e finish
+- no menu Windows -> Preferences -> Server -> Runtime Environments
+- clique em add... escolha apache e depois Apache Tomcat V7.0 e em next
+- clique em browse e procure a pasta /kdi/apache-tomcat-7.0.68 e clique em OK -> Finish -> OK
+- procure a aba Servers e clique para adicionar um servidor
+- escolha Tomcat 7 e next e finish
 
 # Passo 2 - Testando a aplicação
-Adicione a aplicação em Add and Remove.. -> Add all -> Finish
-Publique e inicie o tomcat (Run)
-Acesse http://localhost:8080/mci-clientes-api/
-Depois http://localhost:8080/mci-clientes-api/api/clientes
+Adicione a aplicação
+- em Add and Remove.. -> Add all -> Finish
+- ublique e inicie o tomcat (Run)
+- acesse http://localhost:8080/mci-clientes-api/
+- depois http://localhost:8080/mci-clientes-api/api/clientes
 
 Alerando a aplicação:
-Copie os jar da pasta Donwloas/lib para a pasta webapp/WEB-INF/lib
+- copie os jar da pasta Donwloas/lib para a pasta webapp/WEB-INF/lib
 
 Altere o arquivo web.xml
-acrescente após welcome-file-list
+- acrescente após welcome-file-list
 
 <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
