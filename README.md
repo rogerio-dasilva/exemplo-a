@@ -41,7 +41,7 @@ Alerando a aplicação:
 
 Altere o arquivo web.xml
 - acrescente após welcome-file-list
-```
+```html
 <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 </listener>
@@ -70,20 +70,20 @@ Na classe cliente em mci-clientes-api
 - selecionar o campo codigo e apertar a combinação de teclas Ctrl+Shit+R  duas vezes
 - Abrirá uma caixa de diálogo e marque "Rename getter" e "Rename setter"
 - mude o nome de codigo para mci;
- ```
+ ```java
  private Integer codigo; 
  ```
  para
- ```
+ ```java
  private Integer mci;
  ```
  Faça de novo:
  - mude o nome de documentoIdentificacao para documento;
-```
+```java
 private String documentoIdentificacao;
 ```
 para
-```
+```java
 private String documento;
 ```
 
@@ -93,7 +93,7 @@ Adicione uma pasta app
 
 Adicione arquivo index.html
 
-```
+```html
 <!DOCTYPE html>
 <html lang="pt-br" ng-app>
 <head>
@@ -139,12 +139,12 @@ Ele tem como foco a criação de Single Page Applications (SPAs). Este tipo de a
 Criar o arquivo app.js em /src/main/webapp/app/app.js
 
 conteudo:
-```
+```js
 angular.module('clientes', []);
 ```
 
 alterar /src/main/webapp/app/index.html adicionar 
-```
+```html
 <script src="/mci-clientes/app/app.js"></script>
 ```
 
@@ -153,7 +153,7 @@ Ele recebe dois parâmetros. O primeiro o nome do módulo, o segundo o nome de t
 mas não temos nenhuma ainda.
 
 adicionamos o móduloa na tag html e atributo ng-app:
-```
+```html
 ng-app="clientes"
 ```
 
@@ -169,12 +169,12 @@ clientes.controller.js
 ```
 
 adicione a nova entrada em /src/main/webapp/app/index.html
-```
+```html
 <script src="/mci-clientes/app/controllers/clientes.controller.js"></script>
 ```
 
 Conteudo:
-```
+```js
 angular.module('clientes')
 .controller('ClientesController', function(){
 	var cliente = {
@@ -185,7 +185,7 @@ angular.module('clientes')
 });
 ```
 Vamos associoar este controller em um elemento do html. Neste caso colocaremos na tag body e modificaremos o seu conteúdo:
-```
+```html
 <body ng-controller="ClientesController">
     <div>
       MCI: {{cliente.mci}} <br/>
@@ -198,7 +198,7 @@ Ainda não funciona pois a variável cliente ainda está no escopo privado. Tamb
 Usaremos uma ponte de ligação do angular chamado $scope.
 
 Vamos modificar o controller
-```
+```js
 angular.module('clientes')
 .controller('ClientesController', function($scope){
 	$scope.cliente = {
