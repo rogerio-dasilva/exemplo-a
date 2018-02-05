@@ -1,4 +1,4 @@
-# Passo 1 - Alterando o projeto
+# Passo 1 - Alterando os projetos anteriores
 
 ## Criar novo workspace2
 Baixar o projeto mci-clientes-api e descompactar em kdi/workspace2/mci-clientes-api
@@ -222,18 +222,6 @@ O que vimos até agora:
 - conceito de data-binding
 
 # Passo 7 - Exercícios
-- adicione mais dois clientes no controller;
-- coloque um cabeçalho na página da aplicação "Clientes"
-- apresente os três clientes em formato de tabela
-
-# Passo 8 - Repetição de código
-
-
-
-
-
-
-
-
-
-
+- adicione mais duas variáveis com dados de clientes no controller (cliente2, cliente3);
+- coloque um cabeçalho na página da aplicação "Clientes" e
+- apresente os três clientes em formato de tabela com título "Listagem".
