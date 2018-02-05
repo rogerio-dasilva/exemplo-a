@@ -221,6 +221,13 @@ O que vimos até agora:
 - criação do controller
 - conceito de data-binding
 
+# Passo 7 - Exercícios
+- adicione mais dois clientes no controller;
+- coloque um cabeçalho na página da aplicação "Clientes"
+- apresente os três clientes em formato de tabela
+
+# Passo 8 - Repetição de código
+
 
 
 
