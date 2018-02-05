@@ -1,4 +1,4 @@
-Passo 1 - Alterando o projeto
+# Passo 1 - Alterando o projeto
 
 Criar novo workspace2
 baixar o projeto mci-clientes-api e descompactar em kdi/workspace2/mci-clientes-api
@@ -29,7 +29,7 @@ clique em browse e procure a pasta /kdi/apache-tomcat-7.0.68 e clique em OK -> F
 Procure a aba Servers e clique para adicionar um servidor
 Escolha Tomcat 7 e next e finish
 
-Passo 2 - Testando a aplicação
+# Passo 2 - Testando a aplicação
 Adicione a aplicação em Add and Remove.. -> Add all -> Finish
 Publique e inicie o tomcat (Run)
 Acesse http://localhost:8080/mci-clientes-api/
@@ -65,7 +65,7 @@ acrescente após welcome-file-list
 Adicione o plugin https://addons.mozilla.org/pt-BR/firefox/addon/rested/
 
 
-Passo 3 - Modificar mci-clientes-api
+# Passo 3 - Modificar mci-clientes-api
  Na classe cliente em mci-clientes-api
  
  selecionar o campo codigo e apertar a combinação de teclas Ctrl+Shit+R  duas vezes
@@ -84,7 +84,7 @@ Passo 3 - Modificar mci-clientes-api
  private String documento;
 
  
- Passo 4 - Inicio angularjs na aplicação Estatica
+# Passo 4 - Inicio angularjs na aplicação Estatica
 
 
 adicione uma pasta app em /src/main/webapp/
@@ -126,7 +126,7 @@ Este tipo de aplicação não recarrega a página durante o seu uso,
 o que dá uma experiência de fluidez para o usuário.
 
 
-Passo 5 - Montando a aplicação principal clientes
+# Passo 5 - Montando a aplicação principal clientes
 
 Criar o arquivo app.js em /src/main/webapp/app/app.js
 
@@ -148,7 +148,7 @@ isso significa que todos os elementos filhos do html e o proprio html serão ger
 ng-app é chamado de diretiva, esta não existe no html. As diretivas do angularjs ampliam novos vocabulários ao html, novos truques.
 
 
-Passo 6 - Criando um Controller para clientes
+# Passo 6 - Criando um Controller para clientes
 
 adicione novo arquivo em /src/main/webapp/app/controllers
 clientes.controller.js
