@@ -22,9 +22,13 @@ angular.module('clientes').controller('ClientesController', function($scope) {
 });
 ```
 Vamos arrumar a apresentação (View)
+
 Para isso usaremos uma nova diretiva ng-repeat que será colocada na tag html <tr> do primeiro cliente.
+	
 A sintaxe é: ng-repeat="_apelido_ in _nomeDaVariavel_"
+
 O apelido será preenchido com cada item do array e repedito em todo código interno da tag <tr>
+	
 ```html
 <table class="table">
    <tr>
