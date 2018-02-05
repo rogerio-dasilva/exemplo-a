@@ -41,30 +41,29 @@ Alerando a aplicação:
 
 Altere o arquivo web.xml
 - acrescente após welcome-file-list
-
+```
 <listener>
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
-  </listener>
+</listener>
 	
-	<servlet>
-		<servlet-name>jersey-serlvet</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>br.com.bb.mci</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+<servlet>
+    <servlet-name>jersey-serlvet</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.packages</param-name>
+        <param-value>br.com.bb.mci</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+</servlet>
  
-	<servlet-mapping>
-		<servlet-name>jersey-serlvet</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-  
-  
-  
-Adicione o plugin https://addons.mozilla.org/pt-BR/firefox/addon/rested/
+<servlet-mapping>
+    <servlet-name>jersey-serlvet</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+</servlet-mapping>
+```
 
+Adicione o plugin
+- de https://addons.mozilla.org/pt-BR/firefox/addon/rested/
 
 # Passo 3 - Modificar mci-clientes-api
  Na classe cliente em mci-clientes-api
