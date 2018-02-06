@@ -6,7 +6,83 @@
 - em seguida reduzimos a repetição de código com a diretiva do angular ng-repeart="cliente in clientes"
 - alteramos o 'ClientesController' para buscar as informações da aplicação Dinâmica (API) com o serviço $http do angular
 - trabalhos com o retorno da promise do serviço $http, podendo ter sucesso ou erro.
-# Passo 12 - Criando nossa própria diretiva
+
+# Passo 12 - Criando rotas entre views
+Agora vamos criar visualizaçes (views) para nossas ação de incluir, editar, detalhar e excluir clientes
+
+No AngularJS temos o foco em Sigle Page Aplications (Aplicação de única página), aquele tipo de aplicação que não recarrega seu contéudo no seu uso. Então como fazer isso sem redirecionar para outra página que recarrega tudo nela.
+
+Famos perceber agora que a página index.html não será recarregada durante a navegação, e o que permitirá isso será através do que é chamado no angular de _rotas_, e essas rotas buscam página que são chamadas de views parciais. Nesse tipo de view o conteúdo html não pode ter as tags _head e body_, pois serão inseridas dentro de index.html, ou seja, a página principal.
+
+- vamos alterar index.html comentado a tabela de lista e seu cabeçalho:
+```html
+<!--
+    <div class="row" >
+            <h2>Listagem</h2>
+    </div>
+        
+    <div class="row">
+    <table class="table">
+    	<tr>
+    		<th>MCI</th><th>Nome</th><th>Documento</th><th>Tipo Documento</th><th>Descrição documento</th>
+    	<tr>
+    	<tr ng-repeat="item in clientes">
+    		<td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+    	</tr>    	
+</table> -->
+```
+-  adicionamos depois disso a diretiva ng-view assim:
+```html
+ <ng-view></ng-view>
+```
+- neste mesmo arquivo precisamos importar o componente do angular que trabalha com rotas acrescentando o script abaixo logo após o script que termina com /angularjs/1.5.10/angular.js:
+```html
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-route.js"></script>
+```
+- vamos acrescentar o componente do angular que realiza as rotas e configurá-las no arquivo /src/main/webapp/app/app.js:
+```javascript
+angular.module('clientes', ['ngRoute']).config(function($routeProvider){
+	$routeProvider.when('/clientes', {
+		templateUrl: 'partials/principal.html',
+		controller: 'ClientesController'
+	});
+	
+	$routeProvider.when('/edicao', {
+		templateUrl: 'partials/edicao.html',
+		controller: 'ClientesController'
+	});
+	
+	$routeProvider.otherwise({ 
+		templateUrl: 'partials/principal.html',
+		controller: 'ClientesController'
+	});
+});
+```
+- precisamos criar as views parciais que serão usadas nas rotas.
+- primeiro vamos criar uma nova pasta chamada partials em /src/main/webapp/app/ e depois, para a lista de clientes, criamos um novo arquivo chamado principal.html nesta pasta criada, com o contedo:
+```html
+<div class="row" >
+    <h2>Listagem</h2>
+</div>
+    
+<div class="row">
+<table class="table">
+	<tr>
+		<th>MCI</th><th>Nome</th><th>Documento</th><th>Tipo Documento</th><th>Descrição documento</th>
+	<tr>
+	<tr ng-repeat="item in clientes">
+		<td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+	</tr>
+</table>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="novo()">Novo</span>
+</div>
+```
+
+
+
+# Passo Elaborando - Criando nossa própria diretiva
 - vamos criar uma nova pasta em /src/main/webapp/app chamada directives 
 - nesta nova posta adicionar um novo arquivo clientes.diretiva.js , que será um novo módulo, com o conteúdo:
 ```javascript
