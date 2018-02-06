@@ -169,8 +169,6 @@ Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.c
 # Passo 14 - Exercício
 Acrescente os campos Documento, Tipo de Documento e Descrição do documento para inclusão pela aplicação.
 
-Na edição não pode-se alterar o código do tipo de documento e descrição do tipo de documento.
-
 # Passo 15 - Editando um cliente
 - vamos editar o arquivo principal.html e colocar mais uma coluna chamada "Ações":
 ```html
