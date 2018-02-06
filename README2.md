@@ -88,11 +88,11 @@ angular.module('clientes', ['ngRoute']).config(function($routeProvider){
     
 <form>
     <div class="form-group" ng-show="selecionado.mci">
-        <label for="inputNome">MCI</label>
+        <label for="inputMci">MCI</label>
     </div>
     <div class="form-group">
-        <label for="inputDocumento">Nome</label>
-        <input type="text" class="form-control" id="inputAlterarDocumento" placeholder="Digite o documento" ng-model="selecionado.nome">
+        <label for="inputNome">Nome</label>
+        <input type="text" class="form-control" id="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome">
     </div>
 </form>
 
@@ -148,7 +148,7 @@ Aqui veremos mais duas diretivas do angular:
 Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.controller.js.
 - acrescente após o término da função $scope.voltar:
 ```javascript
-                $scope.incluir = function(){
+      $scope.incluir = function(){
 		$http.post('/mci-clientes-api/api/clientes', $scope.selecionado)
 		.success(function(retorno){
 			$scope.clientes = retorno.listaClientes;
@@ -168,6 +168,7 @@ Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.c
 - agora teste a inclusão
 # Passo 14 - Exercício
 Acrescente os campos Documento, Tipo de Documento e Descrição do documento para inclusão pela aplicação.
+Na edição no pode-se alterar o código do tipo de documento e descrição do tipo de documento.
 
 # Passo 15 - Editando um cliente
 - vamos editar o arquivo principal.html e colocar mais uma coluna chamada "Ações":
