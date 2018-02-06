@@ -135,7 +135,7 @@ public Response incluir(Cliente cliente) {
 - no campo REQUEST BODY mude para CUSTOM e informe os dados json para incluir cliente
 - clique em Send Request
 
-## adicione os novos campos na Single page application SPA
+## apresente os novos campos na Single Page Application SPA
 
 # Fontes para consulta
 - Guie de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md, e em português https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
