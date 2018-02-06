@@ -166,6 +166,56 @@ Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.c
 - agora teste a inclusão
 
 # Passo 14 - Editando um cliente
+- vamos editar o arquivo principal.html e colocar mais uma coluna chamada "Ações":
+```html
+<th>Ações</th>
+```
+- logo abaixo adicione na lista em que está usao ng-repeat para incluir uma coluna com botão de edição:
+```html
+<span class="btn btn-info" ng-click="selecionar(item)">Editar</span>
+
+Como estamos navegando entre views, cada view tem um escopo com suas variáveis. Precisamos do cliente selecionado quando mudarmos da lista para edição. Vamos usar o $rootScope fornecido pelo angular
+- altere o clientes.controller.js acrescentando um novo parâmetro no método após $location e antes do fechamento do parêntese de fechamento da função, que será $rootScope
+- acrescente um if após $scope.selecionado para verificar a existência do valor no $rootScope:
+```javascript
+if($rootScope.selecionado){
+    $scope.selecionado = $rootScope.selecionado;
+}
+```
+- precisamos também da função que colocará no $rootScope o cliente selecionado na lista. Acrescente no mesmo arquivo:
+```javascript
+$scope.selecionar = function(cliente){
+	$rootScope.selecionado = cliente;
+	$location.url('/edicao');
+}
+```
+- agora adicionamos o método que irá fazer a atualização no clientes.controller.js:
+```javascript
+$scope.alterar = function(){
+		$http.put('/mci-clientes-api/api/clientes/' + $scope.selecionado.mci, $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+		
+	}
+```
+- no arquivo edicao.html coloque após o label onde tem MCI:
+```html
+<br/>{{selecionado.mci}}
+```
+- adicione mais um botão em seguida do que faz a inclusão:
+```html
+<span class="btn btn-primary" ng-click="alterar()" ng-show="selecionado.mci">Salvar</span>
+```
 
 
 
