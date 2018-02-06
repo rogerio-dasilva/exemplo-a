@@ -59,7 +59,7 @@ angular.module('clientes', ['ngRoute']).config(function($routeProvider){
 });
 ```
 - precisamos criar as views parciais que serão usadas nas rotas.
-- primeiro vamos criar uma nova pasta chamada partials em /src/main/webapp/app/ e depois, para a lista de clientes, criamos um novo arquivo chamado principal.html nesta pasta criada, com o contedo:
+- primeiro vamos criar uma nova pasta chamada partials em /src/main/webapp/app/ e depois, para a lista de clientes, criamos um novo arquivo chamado principal.html nesta pasta criada, com o conteúdo:
 ```html
 <div class="row" >
     <h2>Listagem</h2>
@@ -79,6 +79,69 @@ angular.module('clientes', ['ngRoute']).config(function($routeProvider){
     <span class="btn btn-primary" ng-click="novo()">Novo</span>
 </div>
 ```
+- em segundo, criamos um novo arquivo chamado edicao.html na pasta partials, com o conteúdo:
+```html
+<div class="row" >
+    <h2 ng-show="!selecionado.mci">Novo</h2>
+    <h2 ng-show="selecionado.mci">Edição</h2>
+</div>
+    
+<form>
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputNome">MCI</label>
+    </div>
+    <div class="form-group">
+        <label for="inputDocumento">Nome</label>
+        <input type="text" class="form-control" id="inputAlterarDocumento" placeholder="Digite o documento" ng-model="selecionado.nome">
+    </div>
+</form>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="voltar()">Voltar</span>
+    <span class="btn btn-primary" ng-click="incluir()" ng-show="!selecionado.mci">Salvar</span>
+</div>
+```
+- agora, para o comportamento para a navegação, precisamos alterar o clientes.controller.js com o código:
+```javascript
+angular.module('clientes').controller('ClientesController', function($scope, $http, $location) {
+$scope.selecionado = {};
+
+	$scope.lista = function(){
+		$http.get('/mci-clientes-api/api/clientes')
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+
+	}
+
+	$scope.novo = function(){
+		$location.url('/edicao');
+	}
+
+
+	$scope.voltar = function(){
+		$location.url('/clientes');
+	};
+
+	$scope.lista();
+
+});
+```
+Com a inclusão do componente _angular-route.js_ temos um novo serviço fornecido pelo angular, o _$location_. Com ele podemos fazer redirecionamento das views de edição e lista de clientes, com os botões de ações, "Novo" e "Voltar".
+
+- acesse a página http://localhost:8080/mci-clientes/app/ e clique em "Novo". Veja o endereço que aparece no navegador.
+- clique depois em voltar e veja novamente o endereço do navegador.
+- a direita da marcar "#", podemos ver a views que foi carregada a partir da configuraço de rotas.
+
+# Passo 13 - Incluíndo um cliente
 
 
 
