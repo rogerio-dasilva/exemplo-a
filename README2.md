@@ -19,17 +19,17 @@ angular.module('clientes', ['minhasDiretivas']);
 - agora declaramos a nova diretiva editando o arquivo clientes.diretiva.js:
 ```javascript
 angular.module('minhasDiretivas', []).directive('bbPainel', function(){
-	var ddo = {};
-	return ddo;
+  var ddo = {};
+  return ddo;
 });
 ```
 - neste código foi criado uma variável chamada ddo (directive definition object) com  tipo object e vazio, no fim retornamos no final do método o ddo.
 - o ddo conterá a configuração da diretiva e a primeira propriedade será a forma de uso da mesmo que pode ser "E" ou "A" ou "C" para Elemento, Atributo ou Comentário respectivamente, chamada de retrict:
 ```javascript
 angular.module('minhasDiretivas', []).directive('bbPainel', function(){
-	var ddo = {};
+  var ddo = {};
   ddo.restrict = "AE"
-	return ddo;
+  return ddo;
 });
 ```
 - por fim adicionamos no index.html a importação do arquivo < script src="/mci-clientes/app/directives/clientes.diretiva.js"></script>
