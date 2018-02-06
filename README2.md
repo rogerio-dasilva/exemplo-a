@@ -64,14 +64,14 @@ angular.module('clientes', ['ngRoute']).config(function($routeProvider){
 <div class="row" >
     <h2>Listagem</h2>
 </div>
-    
+
 <div class="row">
 <table class="table">
 	<tr>
-		<th>MCI</th><th>Nome</th><th>Documento</th><th>Tipo Documento</th><th>Descrição documento</th>
+		<th>MCI</th><th>Nome</th><th>Documento</th>
 	<tr>
 	<tr ng-repeat="item in clientes">
-		<td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+		<td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td>
 	</tr>
 </table>
 
@@ -142,6 +142,30 @@ Com a inclusão do componente _angular-route.js_ temos um novo serviço fornecid
 - a direita da marcar "#", podemos ver a views que foi carregada a partir da configuraço de rotas.
 
 # Passo 13 - Incluíndo um cliente
+Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.controller.js.
+- acrescente após o término da função $scope.voltar:
+```javascript
+                $scope.incluir = function(){
+		$http.post('/mci-clientes-api/api/clientes', $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+
+	}
+```
+- agora teste a inclusão
+
+# Passo 14 - Editando um cliente
 
 
 
