@@ -7,3 +7,29 @@
 - alteramos o 'ClientesController' para buscar as informações da aplicação Dinâmica (API) com o serviço $http do angular
 - trabalhos com o retorno da promise do serviço $http, podendo ter sucesso ou erro.
 # Passo 12 - Criando nossa própria diretiva
+- vamos criar uma nova pasta em /src/main/webapp/app chamada directives 
+- nesta nova posta adicionar um novo arquivo clientes.diretiva.js , que será um novo módulo, com o conteúdo:
+```javascript
+angular.module('minhasDiretivas', []);
+```
+- alteramos o módulo principal 'clientes' para ligar com o novo módulo no arquivo app.js ficando:
+```javascript
+angular.module('clientes', ['minhasDiretivas']);
+```
+- agora declaramos a nova diretiva editando o arquivo clientes.diretiva.js:
+```javascript
+angular.module('minhasDiretivas', []).directive('bbPainel', function(){
+	var ddo = {};
+	return ddo;
+});
+```
+- neste código foi criado uma variável chamada ddo (directive definition object) com  tipo object e vazio, no fim retornamos no final do método o ddo.
+- o ddo conterá a configuração da diretiva e a primeira propriedade será a forma de uso da mesmo que pode ser "E" ou "A" ou "C" para Elemento, Atributo ou Comentário respectivamente, chamada de retrict:
+```javascript
+angular.module('minhasDiretivas', []).directive('bbPainel', function(){
+	var ddo = {};
+  ddo.restrict = "AE"
+	return ddo;
+});
+```
+- por fim adicionamos no index.html a importação do arquivo < script src="/mci-clientes/app/directives/clientes.diretiva.js"></script>
