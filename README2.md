@@ -57,10 +57,30 @@ Ao utilizar o serviço $http o que ele retorna é uma _promise_, promessa, da ex
 Quando a promessa for cumprida, daí temos acesso aos dados retornados.
 
 ```js
-var promisse = $http.get('/mci-clientes-api/api/clientes');
+var promise = $http.get('/mci-clientes-api/api/clientes');
 	
 promise.then(function(retorno){
-	$scope.clientes = retorno.data;
+	$scope.clientes = retorno.data.listaClientes;
+});
+```
+E se ocorre erro? A promise tem outro método em que encadeia este comportamento
+
+O código ficará assim
+```js
+angular.module('clientes').controller('ClientesController', function($scope, $http) {
+	
+	var promise = $http.get('/mci-clientes-api/api/clientes');
+	
+	promise.then(function(retorno){
+		$scope.clientes = retorno.data.listaClientes;
+	}).catch(function(erro){
+	    var id = '#msgDanger';
+            $(id).text(erro.statusText);
+            $(id).css('display', 'block');
+            setTimeout(function () {
+                $(id).css('display', 'none');
+            }, 5000);
+	});
 });
 ```
 
