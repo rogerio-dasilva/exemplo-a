@@ -463,7 +463,7 @@ public Response incluir(Cliente cliente) {
 # Solução do Exercício
 
 - arquivo index.html
-```html
+`html
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="clientes">
 <head>
@@ -517,9 +517,9 @@ public Response incluir(Cliente cliente) {
     </div>
 </body>
 </html>
-```
+`
 - arquivo ClienteResource.java
-```java
+`java
 package br.com.bb.mci;
 
 import java.util.ListIterator;
@@ -613,7 +613,7 @@ public class ClienteResource {
 		return Response.status(404).build();
 	}
 }
-```
+`
 - arquivo ClientesDao.java
 `java
 package br.com.bb.mci;
@@ -641,7 +641,8 @@ public class ClientesDAO {
 		this.listaClientes = listaClientes;
 	}
 }
-`- arquivo Cliente.java
+`
+- arquivo Cliente.java
 `java
 package br.com.bb.mci;
 
