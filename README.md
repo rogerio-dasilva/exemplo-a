@@ -460,6 +460,250 @@ public Response incluir(Cliente cliente) {
 
 ## apresente os novos campos na Single Page Application SPA
 
+# Solução do Exercício
+
+- arquivo index.html
+```html
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="clientes">
+<head>
+<meta charset="UTF-8">
+ 
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MCI Clientes AngularJS</title>
+    
+    
+    <link rel="stylesheet" href="/mci-clientes/bootstrap.min.css">
+    <link rel="stylesheet" href="/mci-clientes/style.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.js"></script>
+    <script src="/mci-clientes/jquery.min.js"></script>
+    <script src="/mci-clientes/bootstrap.min.js"></script>
+    <script src="/mci-clientes/app/app.js"></script>
+    <script src="/mci-clientes/app/controllers/clientes.controller.js"></script>
+    <script src="/mci-clientes/script.js"></script>
+</head>
+<body ng-controller="ClientesController">
+    <div class="jumbotron text-center">
+        <h1>Clientes</h1>
+    </div>
+    
+    <div class="container">
+     <div id="msgSuccess" style="display: none" class="alert alert-success" role="alert"></div>
+     <div id="msgDanger" style="display: none" class="alert alert-danger" role="alert"></div>
+        
+     <!-- Cabeçalho -->
+        <div class="row">
+            <h2>Listagem</h2>
+        </div>
+        
+    <div class="row">
+    <table class="table">
+    	<tr>
+    		<th>MCI</th><th>Nome</th><th>Documento</th><th>Código documento</th><th>Descrição documento</th>
+    	<tr>
+    	<tr ng-repeat="item in clientes">
+    		<td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+    	</tr>
+    	
+    	
+    </table>
+    
+    
+    </div>
+    
+    </div>
+</body>
+</html>
+```
+- arquivo ClienteResource.java
+```java
+package br.com.bb.mci;
+
+import java.util.ListIterator;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@RequestScoped
+@Path("clientes")
+public class ClienteResource {
+
+	@Inject
+	private ClientesDAO clientesDAO;
+
+	public ClienteResource() {
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listar() {
+		return Response.ok()
+				.entity(new Clientes(clientesDAO.getListaClientes())).build();
+	}
+
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response detalhar(@PathParam("id") Integer id) {
+		for (Cliente c : clientesDAO.getListaClientes()) {
+			if (c.getMci().equals(id)) {
+				return Response.ok()
+						.entity(c).build();
+			}
+		}
+
+		return Response.status(404).build();
+	}
+
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response alterar(@PathParam("id") Integer id, Cliente cliente) {
+		for (Cliente c : clientesDAO.getListaClientes()) {
+			if (c.getMci().equals(id)) {
+				c.setNome(cliente.getNome());
+				c.setDocumento(cliente.getDocumento());
+				return Response.ok().entity(c).build();
+			}
+		}
+
+		return Response.status(404).build();
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response incluir(Cliente cliente) {
+		Integer novoCodigo = 0;
+		for (Cliente c : clientesDAO.getListaClientes()) {
+			if (novoCodigo <= c.getMci()) {
+				novoCodigo = c.getMci() + 1;
+			}
+		}
+
+		cliente.setMci(novoCodigo);
+
+		clientesDAO.getListaClientes().add(cliente);
+
+		return Response.status(201).entity(cliente).build();
+	}
+	@DELETE
+	@Path("/{id}")
+	public Response apagar(@PathParam("id") Integer id) {
+		ListIterator<Cliente> iter = clientesDAO.getListaClientes().listIterator();
+		while(iter.hasNext()){
+		    if(iter.next().getMci().equals(id)){
+		        iter.remove();
+		        return Response.ok().build();
+		    }
+		}
+
+		return Response.status(404).build();
+	}
+}
+```
+- arquivo ClientesDao.java
+`java
+package br.com.bb.mci;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class ClientesDAO {
+	private List<Cliente> listaClientes;
+	
+	public ClientesDAO() {
+		listaClientes = new ArrayList<Cliente>();
+		listaClientes.add(new Cliente(1, "João", "123465-9", new TipoDocumento(1, "RG")));
+		listaClientes.add(new Cliente(2, "Maria","123.456.789-12", new TipoDocumento(1, "CPF")));
+	}
+
+	public List<Cliente> getListaClientes() {
+		return listaClientes;
+	}
+
+	public void setListaClientes(List<Cliente> listaClientes) {
+		this.listaClientes = listaClientes;
+	}
+}
+`- arquivo Cliente.java
+`java
+package br.com.bb.mci;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement()
+public class Cliente {
+	private Integer mci;
+	private String nome;
+	private String documento;
+	private TipoDocumento tipoDocumento;
+
+	
+	public Cliente() {
+	}
+	
+	public Cliente(Integer codigo, String nome) {
+		this.mci = codigo;
+		this.nome = nome;
+	}
+	
+	public Cliente(Integer codigo, String nome, String documento, TipoDocumento tipo) {
+		this.mci = codigo;
+		this.nome = nome;
+		this.documento = documento;
+		this.tipoDocumento = tipo;
+	}
+
+	public Integer getMci() {
+		return mci;
+	}
+
+	public void setMci(Integer codigo) {
+		this.mci = codigo;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documentoIdentificacao) {
+		this.documento = documentoIdentificacao;
+	}
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+}
+`
+
 # Fontes para consulta
 - Guie de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md, e em português https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
 - Canal YouTube https://www.youtube.com/user/rodrigobranas
