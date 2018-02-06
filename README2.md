@@ -220,10 +220,11 @@ $scope.alterar = function(){
 ```html
 <span class="btn btn-primary" ng-click="alterar()" ng-show="selecionado.mci">Salvar</span>
 ```
-# Passo 15 - Exercício
+# Passo 16 - Exercício
 Acrescente as funcionalidades de Detalhar e Excluir um cliente:
 - faça uma nova rota para cada ação
-- faça uma view para cada ação
-- acrescente as funções necessárias no controller
+
+# Passo 16 - Validando o formulário
+- a
 
 
