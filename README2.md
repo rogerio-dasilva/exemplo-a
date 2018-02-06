@@ -97,6 +97,19 @@ Uma variação do código acima seria usar os metodos _success_ e _error_, a dif
         }, 5000);
    });
 ```
+# Passo 10 - Diretiva customizada
+O AngularJS adiciona diretivas que estendem a html, dando novas formas de interação com a página.
 
+O framework também permite que nós adicionemos nossas próprias diretivas, criando componentes reutilizáveis.
+
+Comecemos com:
+- adicione novo arquivo minhas.diretivas.js em /src/main/webapp/app/directives com o conteúdo:
+```js
+angular.module('minhasDiretivas', []);
+```
+- adicione a nova entrada em index.hml
+```html
+<script src="/mci-clientes/app/directives/minhas.diretivas.js"></script>
+```
 
 
