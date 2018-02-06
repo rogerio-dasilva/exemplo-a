@@ -142,6 +142,9 @@ Com a inclusão do componente _angular-route.js_ temos um novo serviço fornecid
 - a direita da marcar "#", podemos ver a views que foi carregada a partir da configuraço de rotas.
 
 # Passo 13 - Incluíndo um cliente
+Aqui veremos mais duas diretivas do angular:
+- ng-click: para executar uma função (método) do controller
+- ng-show: para exibir ou não elemento do html de acordo com o resultado do valor ser true ou false.
 Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.controller.js.
 - acrescente após o término da função $scope.voltar:
 ```javascript
@@ -160,12 +163,13 @@ Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.c
 	            $(id).css('display', 'none');
 	        }, 5000);
 		});
-
 	}
 ```
 - agora teste a inclusão
+# Passo 14 - Exercício
+Acrescente os campos Documento, Tipo de Documento e Descrição do documento para inclusão pela aplicação.
 
-# Passo 14 - Editando um cliente
+# Passo 15 - Editando um cliente
 - vamos editar o arquivo principal.html e colocar mais uma coluna chamada "Ações":
 ```html
 <th>Ações</th>
