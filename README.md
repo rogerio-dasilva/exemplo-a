@@ -464,7 +464,7 @@ public Response incluir(Cliente cliente) {
 
 - arquivo index.html
 
-`html
+```html
 <!DOCTYPE html>
 <html lang="pt-br" ng-app="clientes">
 <head>
@@ -518,11 +518,11 @@ public Response incluir(Cliente cliente) {
     </div>
 </body>
 </html>
-`
+```
 
 - arquivo ClienteResource.java
 
-`java
+```java
 package br.com.bb.mci;
 
 import java.util.ListIterator;
@@ -616,11 +616,11 @@ public class ClienteResource {
 		return Response.status(404).build();
 	}
 }
-`
+```
 
 - arquivo ClientesDao.java
 
-`java
+```java
 package br.com.bb.mci;
 
 import java.util.ArrayList;
@@ -646,11 +646,11 @@ public class ClientesDAO {
 		this.listaClientes = listaClientes;
 	}
 }
-`
+```
 
 - arquivo Cliente.java
 
-`java
+```java
 package br.com.bb.mci;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -710,7 +710,7 @@ public class Cliente {
 		this.tipoDocumento = tipoDocumento;
 	}
 }
-`
+```
 
 # Fontes para consulta
 - Guie de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md, e em português https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
