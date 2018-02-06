@@ -421,7 +421,7 @@ Uma variação do código acima seria usar os metodos _success_ e _error_, a dif
    });
 ```
 
-# Exercícios
+# Passo 10 - Exercícios
 Vamos alterar a api para preencher mais alguns dados do cliente:
 - altere a classe Cliente.java e adicione mais um construtor:
 ```java
