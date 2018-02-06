@@ -276,7 +276,7 @@ index.html
     
     
     <link rel="stylesheet" href="/mci-clientes/bootstrap.min.css">
-    <link rel="stylesheet" href="/mci-clientes/styles.css">
+    <link rel="stylesheet" href="/mci-clientes/style.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.js"></script>
 
