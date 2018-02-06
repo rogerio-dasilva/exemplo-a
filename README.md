@@ -12,6 +12,20 @@ Procure por existing maven projects e depois clique em next
 Apos termino da importação faça
 - no projeto clique com menu de contexto, escolha: maven -> update project.. -> OK
 - no projeto clique com menu de contexto, escolha: Run As -> maven project
+- adicione
+````xml
+<build>
+		<plugins>
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+		</plugins>
+	</build>
+```
 - preencha em goals: clean package
 - selecione: skip tests
 - clique em run
