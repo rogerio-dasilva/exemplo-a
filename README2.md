@@ -83,7 +83,20 @@ angular.module('clientes').controller('ClientesController', function($scope, $ht
 	});
 });
 ```
-
+Uma variação do código acima seria usar os metodos _success_ e _error_, a diferença será que no retorno não precisa usar o campo intermediário .data:
+```js
+   $http.get('/mci-clientes-api/api/clientesa')
+	.success(function(retorno){
+		$scope.clientes = retorno.listaClientes;
+	}).error(function(erro){
+		var id = '#msgDanger';
+        $(id).text(erro);
+        $(id).css('display', 'block');
+        setTimeout(function () {
+            $(id).css('display', 'none');
+        }, 5000);
+   });
+```
 
 
 
