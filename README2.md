@@ -97,5 +97,7 @@ Uma variação do código acima seria usar os metodos _success_ e _error_, a dif
         }, 5000);
    });
 ```
-
+# Fontes
+- Guia de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
+- Canal YouTube https://www.youtube.com/user/rodrigobranas
 
