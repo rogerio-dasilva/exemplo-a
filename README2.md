@@ -221,33 +221,10 @@ $scope.alterar = function(){
 ```html
 <span class="btn btn-primary" ng-click="alterar()" ng-show="selecionado.mci">Salvar</span>
 ```
+# Passo 15 - Exercício
+Acrescente as funcionalidades de Detalhar e Excluir um cliente:
+- faça uma nova rota para cada ação
+- faça uma view para cada ação
+- acrescente as funções necessárias no controller
 
 
-
-# Passo Elaborando - Criando nossa própria diretiva
-- vamos criar uma nova pasta em /src/main/webapp/app chamada directives 
-- nesta nova posta adicionar um novo arquivo clientes.diretiva.js , que será um novo módulo, com o conteúdo:
-```javascript
-angular.module('minhasDiretivas', []);
-```
-- alteramos o módulo principal 'clientes' para ligar com o novo módulo no arquivo app.js ficando:
-```javascript
-angular.module('clientes', ['minhasDiretivas']);
-```
-- agora declaramos a nova diretiva editando o arquivo clientes.diretiva.js:
-```javascript
-angular.module('minhasDiretivas', []).directive('bbPainel', function(){
-  var ddo = {};
-  return ddo;
-});
-```
-- neste código foi criado uma variável chamada ddo (directive definition object) com  tipo object e vazio, no fim retornamos no final do método o ddo.
-- o ddo conterá a configuração da diretiva e a primeira propriedade será a forma de uso da mesmo que pode ser "E" ou "A" ou "C" para Elemento, Atributo ou Comentário respectivamente, chamada de retrict:
-```javascript
-angular.module('minhasDiretivas', []).directive('bbPainel', function(){
-  var ddo = {};
-  ddo.restrict = "AE"
-  return ddo;
-});
-```
-- por fim adicionamos no index.html a importação do arquivo < script src="/mci-clientes/app/directives/clientes.diretiva.js"></script>
