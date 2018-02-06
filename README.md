@@ -12,7 +12,7 @@ Procure por existing maven projects e depois clique em next
 Apos termino da importação faça
 - no projeto clique com menu de contexto, escolha: maven -> update project.. -> OK
 - no projeto clique com menu de contexto, escolha: Run As -> maven project
-- adicione antes da ultima tag </project>
+- adicione antes da ultima tag project od arquivo pom.xml
 ```xml
 <build>
 		<plugins>
