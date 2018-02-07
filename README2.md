@@ -293,6 +293,11 @@ Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-m
 - ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
 - ng-pattern recebe uma expressão regular para validar o formato experado para o campo: ng-pattern="[0-9]"
 
+Nestas validaçes o nome no objeto ficará sem o prefixo ng. Exemplo: 
+```javascript
+$scope.edicao.inputNome.$error.minlength   para  ng-minlength
+```
+
 As diretivas acimas precisam ser adicionadas em cada input da página edicao.html
 
 No arquivo clientes.controller.js precisará adicionar mais validações para cada novo tipo de validação e campo.
@@ -328,17 +333,17 @@ Para cada tipo de validação precisamos definir uma mensagem para ser exibida
 ```
 - assim para adicione as mensagens para required conforme as validações necessárias de cada campo, substituindo os nome para o campos correspondente:
 ```html
- <span class="form-control alert-danger" ng-show="edicao.inputDocumento.$error.required && edicao.$submitted">
+ <span class="form-control alert-danger" ng-show="edicao.inputDocumento.$error.required">
       	 O documento é obrigatório.
  </span>
 
 
-<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoCodigo.$error.required && edicao.$submitted">
+<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoCodigo.$error.required">
          O código do tipo de documento é obrigatório.
 </span>
 
 
-<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoDescricao.$error.required && edicao.$submitted">
+<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoDescricao.$error.required">
        A descrição do tipo de documento é obrigatório.
 </span>
 ```
@@ -349,10 +354,7 @@ Se não quisermos este comportamento, e sim validar quando o formulário for sub
 
 
 # Passo 20 - Exercício
-Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-maxlengh e ng-pattern.
-- ng-minlength recebe um valor numérico para validar o mínimo de caracteres permitidos: ng-minlength="3"
-- ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
-- ng-pattern recebe uma expressão regular para validar o formato experado para o campo: ng-pattern="[0-9]"
+Adicione novamente as validações na página edicao.html: ng-minlength, ng-maxlengh e ng-pattern.
 
 Adicione as validações para os campos:
 - nome: mínino de 5 caracteres e máximo de 20
@@ -360,6 +362,7 @@ Adicione as validações para os campos:
 - codigo do tipo de documento: requerido e máximo de 2 caracteres
 - descrição do tipo do documento: requerido e máximo de 15 caracteres
 
+As validaçes agora será feitas na própria view
 
 
 
