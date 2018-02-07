@@ -655,7 +655,7 @@ Exemplo:
 Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-maxlengh e ng-pattern.
 - ng-minlength recebe um valor numérico para validar o mínimo de caracteres permitidos: ng-minlength="3"
 - ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
-- ng-pattern recebe uma expressão regular para validar o formato experado para o campo: ng-pattern="[0-9]"
+- ng-pattern recebe uma expressão regular para validar o formato esperado para o campo: ng-pattern="[0-9]"
 
 Nestas validações o nome no objeto ficará sem o prefixo ng nestes casos. Exemplo: 
 ```javascript
