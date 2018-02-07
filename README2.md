@@ -286,6 +286,267 @@ Acrescente as funcionalidades de Detalhar e Excluir um cliente:
 - crie as partials views, uma para cada ação
 - crie os métodos necessários no controller
 
+
+## Solução
+
+Adicionalmente vamos corrir um bug que está na aplicação mci-clientes-api:
+
+- pare o servidor tomcat
+- altere o arquivo ClienteResource.java
+- altere o método alterar como se segue:
+```java
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response alterar(@PathParam("id") Integer id, Cliente cliente) {
+		for (Cliente c : clientesDAO.getListaClientes()) {
+			if (c.getMci().equals(id)) {
+				c.setNome(cliente.getNome());
+				c.setDocumento(cliente.getDocumento());
+				if(cliente.getTipoDocumento() != null){
+					c.setTipoDocumento(cliente.getTipoDocumento());
+				}
+				return Response.ok().entity(c).build();
+			}
+		}
+
+		return Response.status(404).build();
+	}
+```
+
+Em seguida
+
+- alterar o arquivo app.js
+```javascript
+angular.module('clientes', ['ngRoute']).config(function($routeProvider){
+	$routeProvider.when('/clientes', {
+		templateUrl: 'partials/principal.html',
+		controller: 'ClientesController'
+	});
+	
+	$routeProvider.when('/edicao', {
+		templateUrl: 'partials/edicao.html',
+		controller: 'ClientesController'
+	});
+	
+	 $routeProvider.when('/detalhe', {
+	        templateUrl: 'partials/detalhe.html',
+	        controller: 'ClientesController'
+	    });
+	 
+	 $routeProvider.when('/exclusao', {
+	        templateUrl: 'partials/exclusao.html',
+	        controller: 'ClientesController'
+	    });
+	
+	$routeProvider.otherwise({ 
+		templateUrl: 'partials/principal.html',
+		controller: 'ClientesController'
+	});
+});
+```
+- criar o arquivo detalhe.html na pasta partials:
+```html
+<div class="row" >
+    <h2 >Detalhe</h2>
+</div>
+   
+<form>
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputMci">MCI</label>
+        <br/>{{selecionado.mci}}
+    </div>
+    <div class="form-group">
+        <label for="inputNome">Nome</label>
+        <br/>{{selecionado.nome}}
+    </div>
+    <div class="form-group">
+        <label for="inputDocumento">Documento</label>
+        <br/>{{selecionado.documento}}
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <br/>{{selecionado.tipoDocumento.codigo}}
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <br/>{{selecionado.tipoDocumento.descricao}}
+    </div>
+</form>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="voltar()">Voltar</span>
+</div>
+```
+- criar o arquivo exclusao.html na pasta partials:
+```html
+<div class="row" >
+    <h2 >Exclusão</h2>
+</div>
+   
+<form>
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputMci">MCI</label>
+        <br/>{{selecionado.mci}}
+    </div>
+    <div class="form-group">
+        <label for="inputNome">Nome</label>
+        <br/>{{selecionado.nome}}
+    </div>
+    <div class="form-group">
+        <label for="inputDocumento">Documento</label>
+        <br/>{{selecionado.documento}}
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <br/>{{selecionado.tipoDocumento.codigo}}
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <br/>{{selecionado.tipoDocumento.descricao}}
+    </div>
+</form>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="voltar()">Voltar</span>
+    <span class="btn btn-danger" ng-click="excluir()" >Confirmar</span>
+</div>
+```
+- alterar o arquivo clientes.controller.js:
+```javascript
+angular.module('clientes').controller('ClientesController', function($scope, $http, $location, $rootScope) {
+    $scope.selecionado = {};
+    
+    if($rootScope.selecionado){
+        $scope.selecionado = $rootScope.selecionado;
+    }
+
+	$scope.lista = function(){
+		$http.get('/mci-clientes-api/api/clientes')
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+
+	}
+
+	$scope.novo = function(){
+		$rootScope.selecionado = null;
+		$location.url('/edicao');
+	}
+
+
+	$scope.voltar = function(){
+		$location.url('/clientes');
+	};
+	
+	$scope.incluir = function(){
+		$http.post('/mci-clientes-api/api/clientes', $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+	}
+	
+	$scope.selecionar = function(cliente){
+		$rootScope.selecionado = cliente;
+		$location.url('/edicao');
+	}
+	
+	$scope.alterar = function(){
+		$http.put('/mci-clientes-api/api/clientes/' + $scope.selecionado.mci, $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+		
+	}
+	
+	 $scope.detalhar = function(cliente){
+	        $rootScope.selecionado = cliente;
+	        $location.url('/detalhe');
+	    };
+	    
+	    $scope.confirmarExclusao = function(cliente){
+	        $rootScope.selecionado = cliente;
+	        $location.url('/exclusao');
+	    };
+	 
+	$scope.excluir = function(){
+	        $http.delete('/mci-clientes-api/api/clientes/' + $scope.selecionado.mci)
+	        .success(function(retorno){
+	            $scope.clientes = retorno.listaClientes;
+	            $scope.lista();
+	            $location.url('/clientes');
+	        }).error(function(erro){
+	            console.log(JSON.stringify(erro));
+	            var id = '#msgDanger';
+	            $(id).text(erro);
+	            $(id).css('display', 'block');
+	            setTimeout(function () {
+	                $(id).css('display', 'none');
+	            }, 5000);
+	        });
+	       
+	    }
+
+	$scope.lista();
+
+});
+```
+- alterar o arquivo principal.html:
+```html
+<div class="row" >
+    <h2>Listagem</h2>
+</div>
+
+<div class="row">
+<table class="table">
+	<tr>
+		<th>MCI</th><th>Nome</th><th>Documento</th><th>Cód. tipo doc.</th><th>Descrição tipo doc</th><th>Ações</th>
+	<tr>
+	<tr ng-repeat="item in clientes">
+		<tr ng-repeat="item in clientes">
+        <td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+        <td>
+        <span class="btn btn-info" ng-click="detalhar(item)">Detalhar</span>
+        <span class="btn btn-info" ng-click="selecionar(item)">Editar</span>
+        <span class="btn btn-danger" ng-click="confirmarExclusao(item)">Excluir</span>
+        <td>
+	</tr>
+</table>
+</div>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="novo()">Novo</span>
+</div>
+```
+
+
 # Passo 17 - Validando o formulario pelo Controller
 Em um formulário html, o angular cria, implicitamente, um objeto com o mesmo nome do atributo name do formulário. Esse objeto especial dá acesso ao formulario, seus campos, e campos especiais, por exemplo, $error, $valid, $invalid e $submitted
 
