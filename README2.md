@@ -226,11 +226,76 @@ Acrescente as funcionalidades de Detalhar e Excluir um cliente:
 - crie as partials views, uma para cada ação
 - crie os métodos necessários no controller
 
-# Passo 17 - Validando o formulário
+# Passo 17 - Validando o formulario pelo Controller
 Em um formulário html, o angular cria, implicitamente, um objeto com o mesmo nome do atributo name do formulário. Esse objeto especial dá acesso ao formulario, seus campos, e campos especiais, por exemplo, $error, $valid, $invalid e $submitted
 
 Para usar a validação do AngularJS, precisamos abdicar da validação do html5.
 - no arquivo edicao.html, na tag form, vamos desabilitar a validação padrão do html5, acrescentando o atributo novalidate.
+- acrescente também a diretiva ng-submit="salvar()", e o atributo nome="cliente", ficando: < form novalidate name="edicao" ng-submit="salvar()">
+- a div, com os botões, deve ficar dentro da tag form e modificado para:
+```html
+ <div class="row">
+    <span class="btn btn-info" ng-click="voltar()">Voltar</span>
+    <button type="submit" class="btn btn-primary" >Salvar</button>
+</div>
+```
+
+Podemos validar os dados, antes de submeter para a api pelo controller, acessando estes campos especiais.
+- no arquivo edicao.html para cada campo de input adicione o atributo _name_ com o mesmo nome que está no atributo _id_ e adicionamos o atributo required Exemplo:
+Onde está:
+```html
+<input type="text" class="form-control" id="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" >
+```
+Ficará:
+```html
+<input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" required >
+```
+- Vamos alterar o controlador para ele decidir qual operação realizar e fazer as validaçes. Em clientes.controller.js acrescente:
+```javascript
+	$scope.salvar = function(){
+		if($scope.edicao.$valid){
+			if($scope.selecionado.mci){
+				$scope.alterar();
+			} else {
+				$scope.incluir();
+			}	
+		} else {
+			var mensagem = '';
+			if($scope.edicao.inputNome.$error.required){
+				mensagem+='O nome é obrigatório\n';
+			}			
+			
+			if(mensagem){
+				var id = '#msgDanger';
+		        $(id).text(mensagem);
+		        $(id).css('display', 'block');
+		        setTimeout(function () {
+		            $(id).css('display', 'none');
+		        }, 5000);
+			}
+			
+		}
+		
+	}
+```
+# Passo 18 - Exercício
+Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-maxlengh e ng-pattern.
+- ng-minlength recebe um valor numérico para validar o mínimo de caracteres permitidos: ng-minlength="3"
+- ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
+- ng-pattern recebe uma expressão regular para validar o formato experado para o campo: ng-pattern="[0-9]"
+
+As diretivas acimas precisam ser adicionadas em cada input da página edicao.html
+
+No arquivo clientes.controller.js precisará adicionar mais validações para cada novo tipo de validaço e campo.
+
+Adicione as validações para os campos:
+- nome: mínino de 5 caracteres e máximo de 20
+- documento: requerido e padrão do CPF (vamos considerar que só pode ser usado CPF na aplicação, procure na internet para validar com uma expressão regular - regexp)
+- codigo do tipo de documento: requerido e máximo de 2 caracteres
+- descrição do tipo do documento: requerido e máximo de 15 caracteres
+
+# Passo 19 - Validando o formulário pela View
+
 - acrescente também a diretiva ng-submit="edicao.$valid && salvar()", e o atributo nome="cliente", ficando: < form novalidate name="edicao" ng-submit="edicao.$valid && salvar()">
 - a div, com os botões, deve ficar dentro da tag form e modificado para:
 ```html
@@ -239,8 +304,8 @@ Para usar a validação do AngularJS, precisamos abdicar da validação do html5
     <button type="submit" class="btn btn-primary" >Salvar</button>
 </div>
 ```
-Vamos alterar o controlador para ele decidir qual operação realizar:
-- acrescente no clientes.controller.js:
+
+- mude no clientes.controller.js o metodo salvar para ficar assim:
 ```javascript
 $scope.salvar = function(){
 	if($scope.selecionado.mci){
@@ -262,7 +327,7 @@ Agora, atualizando a página de edição, aparecerá a mensagem de obrigatório 
 Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="edicao.inputNome.$error.required" para ng-show="edicao.inputNome.$error.required && edicao.$submitted"
 
 
-# Passo 18 - Exercício
+# Passo 20 - Exercício
 Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-maxlengh e ng-pattern.
 - ng-minlength recebe um valor numérico para validar o mínimo de caracteres permitidos: ng-minlength="3"
 - ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
@@ -274,8 +339,8 @@ Adicione as validações para os campos:
 - codigo do tipo de documento: requerido e máximo de 2 caracteres
 - descrição do tipo do documento: requerido e máximo de 15 caracteres
 
-Podemos validar também a quantidade de caracteres com a diretiva ng-maxlengh.
 
-- vamos adicionar a diretiva max-length no nome do cliente par ser de até 20 caracteres
+
+
 
 
