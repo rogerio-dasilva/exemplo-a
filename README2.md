@@ -289,7 +289,7 @@ Acrescente as funcionalidades de Detalhar e Excluir um cliente:
 
 ## Solução
 
-Adicionalmente vamos corrir um bug que está na aplicação mci-clientes-api:
+Adicionalmente vamos corrigir um bug que está na aplicação mci-clientes-api:
 
 - pare o servidor tomcat
 - altere o arquivo ClienteResource.java
