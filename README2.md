@@ -177,7 +177,7 @@ Acrescente os campos Documento, Tipo de Documento e Descrição do documento par
 - logo abaixo adicione na lista em que está usao ng-repeat para incluir uma coluna com botão de edição:
 ```html
 <span class="btn btn-info" ng-click="selecionar(item)">Editar</span>
-
+```
 Como estamos navegando entre views, cada view tem um escopo com suas variáveis. Precisamos do cliente selecionado quando mudarmos da lista para edição. Vamos usar o $rootScope fornecido pelo angular
 - altere o clientes.controller.js acrescentando um novo parâmetro no método após $location e antes do fechamento do parêntese de fechamento da função, que será $rootScope
 - acrescente um if após $scope.selecionado para verificar a existência do valor no $rootScope:
@@ -262,16 +262,15 @@ Agora, atualizando a página de edição, aparecerá a mensagem de obrigatório 
 Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="edicao.inputNome.$error.required" para ng-show="edicao.inputNome.$error.required && edicao.$submitted"
 
 
-
-# Passo 8 - Exercício
+# Passo 18 - Exercício
 Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-maxlengh e ng-pattern.
 - ng-minlength recebe um valor numérico para validar o mínimo de caracteres permitidos: ng-minlength="3"
-- ng-maxlengh recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlengh="3"
-- ng-pattern recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlengh="3"
+- ng-maxlength recebe um valor numérico para validar o máximo de caracteres permitidos: ng-maxlength="20"
+- ng-pattern recebe uma expressão regular para validar o formato experado para o campo: ng-pattern="[0-9]"
 
 Adicione as validações para os campos:
 - nome: mínino de 5 caracteres e máximo de 20
-- documento: requerido e padrão do CPF (vamos considerar que só pode ser usado CPF na aplicação com o pattern )
+- documento: requerido e padrão do CPF (vamos considerar que só pode ser usado CPF na aplicação, procure na internet para validar com uma expressão regular - regexp)
 - codigo do tipo de documento: requerido e máximo de 2 caracteres
 - descrição do tipo do documento: requerido e máximo de 15 caracteres
 
