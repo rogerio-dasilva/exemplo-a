@@ -8,11 +8,11 @@
 - trabalhos com o retorno da promise do serviço $http, podendo ter sucesso ou erro.
 
 # Passo 12 - Criando rotas entre views
-Agora vamos criar visualizaçes (views) para nossas ação de incluir, editar, detalhar e excluir clientes
+Agora vamos criar visualizações (views) para nossas ação de incluir, editar, detalhar e excluir clientes
 
-No AngularJS temos o foco em Sigle Page Aplications (Aplicação de única página), aquele tipo de aplicação que não recarrega seu contéudo no seu uso. Então como fazer isso sem redirecionar para outra página que recarrega tudo nela.
+No AngularJS temos o foco em Sigle Page Aplications (Aplicação de única página), tipo de aplicação que não recarrega seu contéudo no seu uso. Então como fazer isso sem redirecionar para outra página que recarrega tudo noavmente.
 
-Famos perceber agora que a página index.html não será recarregada durante a navegação, e o que permitirá isso será através do que é chamado no angular de _rotas_, e essas rotas buscam página que são chamadas de views parciais. Nesse tipo de view o conteúdo html não pode ter as tags _head e body_, pois serão inseridas dentro de index.html, ou seja, a página principal.
+Vamos perceber agora que a página index.html não será recarregada durante a navegação, e o que permitirá isso será através do que é chamado no angular de _rotas_. Essas rotas buscam  apágina que são chamadas de views parciais. Nesse tipo de view o conteúdo html não pode ter as tags _head e body_, pois serão inseridas dentro de index.html, ou seja, a página principal.
 
 - vamos alterar index.html comentado a tabela de lista e seu cabeçalho:
 ```html
