@@ -552,7 +552,7 @@ Em um formulário html, o angular cria, implicitamente, um objeto com o mesmo no
 
 Para usar a validação do AngularJS, precisamos abdicar da validação do html5.
 - no arquivo edicao.html, na tag form, vamos desabilitar a validação padrão do html5, acrescentando o atributo novalidate.
-- acrescente também a diretiva ng-submit="salvar()", e o atributo nome="cliente", ficando: < form novalidate name="edicao" ng-submit="salvar()">
+- acrescente também a diretiva ng-submit="salvar()", e o atributo name="formCliente", ficando: < form novalidate name="formCliente" ng-submit="salvar()">
 - a div, com os botões, deve ficar dentro da tag form e modificado para:
 ```html
  <div class="row">
@@ -574,7 +574,7 @@ Ficará:
 - Vamos alterar o controlador para ele decidir qual operação realizar e fazer as validaçes. Em clientes.controller.js acrescente:
 ```javascript
 	$scope.salvar = function(){
-		if($scope.edicao.$valid){
+		if($scope.formCliente.$valid){
 			if($scope.selecionado.mci){
 				$scope.alterar();
 			} else {
@@ -582,16 +582,16 @@ Ficará:
 			}	
 		} else {
 			var mensagem = '';
-			if($scope.edicao.inputNome.$error.required){
+			if($scope.formCliente.inputNome.$error.required){
 				mensagem+='O nome é obrigatório.\n';
 			}
-			if($scope.edicao.inputDocumento.$error.required){
+			if($scope.formCliente.inputDocumento.$error.required){
 				mensagem+='O documento é obrigatório.\n';
 			}
-			if($scope.edicao.inputTipoDocumentoCodigo.$error.required){
+			if($scope.formCliente.inputTipoDocumentoCodigo.$error.required){
 				mensagem+='O código do tipo de documento é obrigatório.\n';
 			}
-			if($scope.edicao.inputTipoDocumentoDescricao.$error.required){
+			if($scope.formCliente.inputTipoDocumentoDescricao.$error.required){
 				mensagem+='A descrição do tipo de documento é obrigatório.\n';
 			}			
 			
@@ -616,7 +616,7 @@ Temos disponíveis outros tipos de validações, por exemplo: ng-minlength, ng-m
 
 Nestas validações o nome no objeto ficará sem o prefixo ng nestes casos. Exemplo: 
 ```javascript
-$scope.edicao.inputNome.$error.minlength   para  ng-minlength
+$scope.formCliente.inputNome.$error.minlength   para  ng-minlength
 ```
 
 As diretivas acimas precisam ser adicionadas em cada input da página edicao.html
@@ -631,7 +631,7 @@ Adicione as validações para os campos:
 
 # Passo 19 - Validando o formulário pela View
 
-- altere a diretiva ng-submit para ng-submit="edicao.$valid && salvar()", ficando: < form novalidate name="edicao" ng-submit="edicao.$valid && salvar()">
+- altere a diretiva ng-submit para ng-submit="formCliente.$valid && salvar()", ficando: < form novalidate name="formCliente" ng-submit="formCliente.$valid && salvar()">
 
 - mude no clientes.controller.js o metodo salvar para ficar assim:
 ```javascript
@@ -648,30 +648,30 @@ $scope.salvar = function(){
 Para cada tipo de validação precisamos definir uma mensagem para ser exibida
 - inclua abaixo do campo inputNome o elemento span com a mensagem de validação:
 ```html
-<span class="form-control alert-danger" ng-show="edicao.inputNome.$error.required">
+<span class="form-control alert-danger" ng-show="formCliente.inputNome.$error.required">
        O nome é obrigatório.
 </span>
 ```
 - assim para adicione as mensagens para required conforme as validações necessárias de cada campo, substituindo os nome para o campos correspondente:
 ```html
- <span class="form-control alert-danger" ng-show="edicao.inputDocumento.$error.required">
+ <span class="form-control alert-danger" ng-show="formCliente.inputDocumento.$error.required">
       	 O documento é obrigatório.
  </span>
 
 
-<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoCodigo.$error.required">
+<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoCodigo.$error.required">
          O código do tipo de documento é obrigatório.
 </span>
 
 
-<span class="form-control alert-danger" ng-show="edicao.inputTipoDocumentoDescricao.$error.required">
+<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoDescricao.$error.required">
        A descrição do tipo de documento é obrigatório.
 </span>
 ```
 
 Agora, atualizando a página de edição, aparecerá a mensagem de obrigatório já na entrada.
 
-Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="edicao.inputNome.$error.required" para ng-show="edicao.inputNome.$error.required && edicao.$submitted"
+Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="formCliente.inputNome.$error.required" para ng-show="formCliente.inputNome.$error.required && ediformCliente.$submitted"
 
 
 # Passo 20 - Exercício
