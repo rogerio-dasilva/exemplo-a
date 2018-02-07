@@ -169,6 +169,66 @@ Para incluirmos um cliente, precisamos adicionar uma nova função em clientes.c
 # Passo 14 - Exercício
 Acrescente os campos Documento, Tipo de Documento e Descrição do documento para inclusão pela aplicação.
 
+## Solução
+- arquivo edicao.html
+```html
+<div class="row" >
+    <h2 ng-show="!selecionado.mci">Novo</h2>
+    <h2 ng-show="selecionado.mci">Edição</h2>
+</div>
+    
+<form>
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputMci">MCI</label>
+    </div>
+    <div class="form-group">
+        <label for="inputNome">Nome</label>
+        <input type="text" class="form-control" id="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome">
+    </div>
+    
+    <div class="form-group">
+        <label for="inputDocumento">Documento</label>
+        <input type="text" class="form-control" id="inputDocumento" placeholder="Digite o documento" ng-model="selecionado.documento">
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoCodigo" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.codigo">
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoDescricao" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.descricao">
+    </div>
+</form>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="voltar()">Voltar</span>
+    <span class="btn btn-primary" ng-click="incluir()" ng-show="!selecionado.mci">Salvar</span>
+</div>
+```
+- arquivo principal.html
+```html
+<div class="row" >
+    <h2>Listagem</h2>
+</div>
+
+<div class="row">
+<table class="table">
+	<tr>
+		<th>MCI</th><th>Nome</th><th>Documento</th><th>Cód. tipo doc.</th><th>Descrição tipo doc</th>
+	<tr>
+	<tr ng-repeat="item in clientes">
+		<tr ng-repeat="item in clientes">
+        <td>{{item.mci}} </td> <td>{{item.nome}} </td><td>{{item.documento}} </td><td>{{item.tipoDocumento.codigo}} </td><td>{{item.tipoDocumento.descricao}} </td>
+	</tr>
+</table>
+</div>
+
+<div class="row">
+    <span class="btn btn-primary" ng-click="novo()">Novo</span>
+</div>
+```
+
+
 # Passo 15 - Editando um cliente
 - vamos editar o arquivo principal.html e colocar mais uma coluna chamada "Ações":
 ```html
