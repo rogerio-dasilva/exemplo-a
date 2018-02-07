@@ -224,7 +224,27 @@ $scope.alterar = function(){
 Acrescente as funcionalidades de Detalhar e Excluir um cliente:
 - faça uma nova rota para cada ação
 
-# Passo 16 - Validando o formulário
-- a
+# Passo 17 - Validando o formulário
+Em um formulário html, o angular cria, implicitamente, um objeto com o mesmo nome do atributo name do formulário. Esse objeto especial dá acesso ao formulario, seus campos, e campos especiais, por exemplo, $error e $submitted
 
+Para usar a validação do AngularJS, precisamos abdicar da validação do html5.
+- no arquivo edicao.html, na tag form, vamos desabilitar a validação padrão do html5, acrescentando o atributo novalidate.
+- acrescente também a diretiva ng-submit="salvar()", e o atributo nome="cliente", ficando: < form novalidate name="edicao" ng-submit="salvar()">
+- a div, com os botões, deve ficar dentro da tag form e modificado para:
+```html
+ <div class="row">
+    <span class="btn btn-info" ng-click="voltar()">Voltar</span>
+    <button type="submit" class="btn btn-primary" >Salvar</button>
+</div>
+```
+- adicionamos o atributo _required_ nos campos obrigatórios
+- no campo id="inputNome", acrescente o atributo name="inputNome", com o mesmo valor para id e name, inclua abaixo deste campo:
+```html
+<span class="form-control alert-danger" ng-show="edicao.inputNome.$error.required">
+       O nome é obrigatório.
+</span>
+```
+Agora, atualizando a página de edição, aparecerá a mensagem de obrigatório já na entrada.
+
+Se não quisermos este comportamento, e sim se o formulário for submetido, mudamos ng-show="edicao.inputNome.$error.required" para ng-show="edicao.inputNome.$error.required && edicao.$submitted"
 
