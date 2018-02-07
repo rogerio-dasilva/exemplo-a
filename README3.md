@@ -12,7 +12,7 @@ Para separar a responsabilidade de acessar o end-point REST, com todas as opera�
 - faça importação no index.html o script deste novo componente com < script src="/mci-clientes/app/sevices/clientes.servico.js"></script> logo abaixo da importação de cliente.controller.js
 - colocar o conteúdo de clientes.servico.js
 ```javascript
-angular.module('clientes').factory('ClientesService', function($q, $http){
+angular.module('clientes').factory('ClientesService', function($http){
 	var service = {};
 	
 	service.listar = function(resolve,reject){
@@ -64,7 +64,6 @@ angular.module('clientes').factory('ClientesService', function($q, $http){
 - altere o conteúdo de clientes.controller.js
 ```javascript
 angular.module('clientes').controller('ClientesController', function($scope, $http, $location, $rootScope, ClientesService) {
-	
 	
     $scope.selecionado = {};
     
@@ -162,7 +161,83 @@ angular.module('clientes').controller('ClientesController', function($scope, $ht
 
 });
 ```
-
 # Passo 32 - Utilizando Combobox
+Para o campo tipo de documento, podemos recuperar os tipos de documentos pré-determinados e exibí-los em uma combobox para seleção ao invés de sempre digitar.
+
+Assim vamos substituir o dois campos, Código do Tipo de Documento e Descrição do Tipo de Documento, por uma lista pré-definida de Tipos de Documento
+
+- substituir os dois campos de
+```html
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoCodigo" name="inputTipoDocumentoCodigo" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.codigo" 
+        required
+        ng-maxlength="2">
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoCodigo.$error.required && formCliente.$submitted">
+		         O código do tipo de documento é obrigatório
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoCodigo.$error.maxlength && formCliente.$submitted">
+		         O código do tipo de documento dve ter no máximo 2 caracteres
+			</span>
+    </div>
+
+
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoDescricao" name="inputTipoDocumentoDescricao" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.descricao" 
+        required
+        ng-maxlength="15">
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoDescricao.$error.required && formCliente.$submitted">
+		       A descrição do tipo de documento é obrigatório
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoDescricao.$error.maxlength && formCliente.$submitted">
+		       A descrição do tipo de documento deve ter no máximo 15 caracteres
+			</span>
+    </div>
+```
+- para:
+```html
+   <div class="form-group" >
+        <label for="selectTipoDocumento">Tipo de documento</label>
+        <select id="selectTipoDocumento" name="selectTipoDocumento" class="form-control"
+            ng-controller="TiposDocumentosController"
+            ng-model="selecionado.tipoDocumento"
+            ng-options="tipo.descricao for tipo in tiposDocumentos track by tipo.codigo"
+            required>
+        </select>
+        
+        <span class="form-control alert-danger" ng-show="formCliente.selectTipoDocumento.$error.required && formCliente.$submitted">
+               O tipo de documento é obrigatório
+	</span>
+    </div>
+```
+- crie novo controlador com arquivo de nome tiposDocumentos.controller.js na pasta webapp/app/controllers e conteúdo:
+```javascript
+angular.module('clientes').controller('TiposDocumentosController', function($scope, $http, $location, $rootScope) {
+	
+    $scope.tiposDocumentos = {};
+    
+    $scope.exibirErro = function (erro) {
+		var id = '#msgDanger';
+        $(id).text(erro);
+        $(id).css('display', 'block');
+        setTimeout(function () {
+            $(id).css('display', 'none');
+        }, 5000);
+	}
+    
+	$scope.listaTiposDocumentos = function(){
+		$scope.tiposDocumentos = [
+		    {'codigo' : 1, 'descricao': 'RG' },
+		    {'codigo' : 2, 'descricao': 'CPF' }
+		]
+	}
+
+	$scope.listaTiposDocumentos();
+
+});
+```
 
 # Passo 33 - Desafio
