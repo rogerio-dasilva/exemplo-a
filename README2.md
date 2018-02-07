@@ -362,7 +362,7 @@ Adicione as validações para os campos:
 - codigo do tipo de documento: requerido e máximo de 2 caracteres
 - descrição do tipo do documento: requerido e máximo de 15 caracteres
 
-As validaçes agora será feitas na própria view
+As validações agora serão feitas na própria view
 
 
 
