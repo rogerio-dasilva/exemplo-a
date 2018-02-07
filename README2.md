@@ -7,9 +7,6 @@
 - alteramos o 'ClientesController' para buscar as informações da aplicação Dinâmica (API) com o serviço $http do angular
 - trabalhos com o retorno da promise do serviço $http, podendo ter sucesso ou erro.
 
-## Correção de Bug quando a lista de clientes só tem um elemento
-- vá no projeto mci-clientes-api, na pasta /src/main/webapp/WEB-INF/lib e exclua os três arquivos: jackson-core-asl-1.9.2.jar, jackson-jaxrs-1.9.2.jar e jackson-mapper-asl-1.9.2.jar
-- baixe de https://github.com/rogerio-dasilva/exemplo-a/blob/master/arquivos/fix_bug_json_list.tar.gz que contém versão atualizada dos três jar e coloque estes três no mesma pasta WEB-INF/lib
 
 # Passo 12 - Criando rotas entre views
 Agora vamos criar visualizações (views) para nossas ação de incluir, editar, detalhar e excluir clientes
