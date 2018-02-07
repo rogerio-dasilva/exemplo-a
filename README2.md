@@ -729,6 +729,269 @@ Adicione as validações para os campos:
 As validações agora serão feitas na própria view
 
 
+# Solução
+- arquivo edicao.html
+```html
+<div class="row" >
+    <h2 ng-show="!selecionado.mci">Novo</h2>
+    <h2 ng-show="selecionado.mci">Edição</h2>
+</div>
+    
+<form novalidate name="formCliente" ng-submit="formCliente.$valid && salvar()">
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputMci">MCI</label>
+        <br/>{{selecionado.mci}}
+    </div>
+    <div class="form-group">
+        <label for="inputNome">Nome</label>
+        <input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" 
+        required
+        ng-minlength="5"
+        ng-maxlength="20">
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputNome.$error.required && formCliente.$submitted">
+			       O nome é obrigatório
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputNome.$error.minlength && formCliente.$submitted">
+			       O nome deve ter no mínimo 5 caracteres
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputNome.$error.maxlength && formCliente.$submitted">
+			       O nome deve ter no máximo 20 caracteres
+			</span>
+    </div>
 
+    
+    <div class="form-group">
+        <label for="inputDocumento">Documento</label>
+        <input type="text" class="form-control" id="inputDocumento" name="inputDocumento" placeholder="Digite o documento" ng-model="selecionado.documento" 
+        required
+        ng-pattern="/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/" >
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputDocumento.$error.required && formCliente.$submitted">
+		      	 O documento é obrigatório
+		 	</span>
+		 	<span class="form-control alert-danger" ng-show="formCliente.inputDocumento.$error.pattern && formCliente.$submitted">
+		      	 O documento deve estar no formato CPF (999.999.999-99)
+		 	</span>
+    </div>
+
+ 
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoCodigo" name="inputTipoDocumentoCodigo" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.codigo" 
+        required
+        ng-maxlength="2">
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoCodigo.$error.required && formCliente.$submitted">
+		         O código do tipo de documento é obrigatório
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoCodigo.$error.maxlength && formCliente.$submitted">
+		         O código do tipo de documento dve ter no máximo 2 caracteres
+			</span>
+    </div>
+
+
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoDescricao" name="inputTipoDocumentoDescricao" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.descricao" 
+        required
+        ng-maxlength="15">
+        
+            <span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoDescricao.$error.required && formCliente.$submitted">
+		       A descrição do tipo de documento é obrigatório
+			</span>
+			<span class="form-control alert-danger" ng-show="formCliente.inputTipoDocumentoDescricao.$error.maxlength && formCliente.$submitted">
+		       A descrição do tipo de documento deve ter no máximo 15 caracteres
+			</span>
+    </div>
+
+    
+    <div class="row">
+	    <span class="btn btn-info" ng-click="voltar()">Voltar</span>
+	    <button type="submit" class="btn btn-primary" >Salvar</button>
+	</div>
+</form>
+```
+- arquivo clientes.controller.js
+```javascript
+var app = (function (undefined) {
+    'use strict';
+
+    var clienteEmEdicao;
+
+    $(document).ajaxStart(function () {
+        $('#spinner').css('display', 'block');
+    });
+
+    $(document).ajaxStop(function () {
+        $('#spinner').css('display', 'none');
+    });
+
+    function monitorarAlteracoesInput(id, callback) {
+        $('#' + id).bind('propertychange change click keyup input paste', callback);
+    }
+
+    function mostrarMensagemSucesso(mensagem) {
+        var id = '#msgSuccess';
+        $(id).text(mensagem);
+        $(id).css('display', 'block');
+        setTimeout(function () {
+            $(id).css('display', 'none');
+        }, 5000);
+    }
+
+    function mostrarMensagemErro(mensagem) {
+        var id = '#msgDanger';
+        $(id).text(mensagem);
+        $(id).css('display', 'block');
+        setTimeout(function () {
+            $(id).css('display', 'none');
+        }, 5000);
+    }
+
+    function validaIncluirCliente() {
+        var cliente = {};
+        cliente.nome = $('#inputNome').val().trim();
+        cliente.documento = $('#inputDocumento').val().trim();
+
+        if (cliente.nome && cliente.documento) {
+            $('#btnIncluirCliente').prop('disabled', false);
+        } else {
+            $('#btnIncluirCliente').prop('disabled', true);
+        }
+    }
+
+    function init() {
+        monitorarAlteracoesInput('inputNome', validaIncluirCliente);
+        monitorarAlteracoesInput('inputDocumento', validaIncluirCliente);
+
+        recuperaClientes(function (resposta) {
+            atualizaListaClientes(resposta.listaClientes);
+        });
+    }
+
+    function recuperaClientes(callback) {
+        $.get('/mci-clientes-api/api/clientes', callback);
+    }
+
+    function detalharCliente(mci) {
+        $.get('/mci-clientes-api/api/clientes/' + mci, function (cliente) {
+            $('#tblDetalhaCliente tbody').empty();
+            $('#tblDetalhaCliente tbody').append(
+                '<tr><td>' + cliente.mci + '</td><td>' + cliente.nome + '</td><td>' + cliente.documento + '</td></tr>'
+            );
+            $('#mdlDetalhaCliente').modal('show');
+        });
+    }
+
+    function atualizaListaClientes(clientes) {
+        $('#tblClientes tbody').empty();
+        clientes.forEach(function (cliente) {
+            $('#tblClientes tbody').append(
+                '<tr><td>' + cliente.mci + '</td>' +
+                '<td>' + cliente.nome + '</td>' +
+                '<td><div class="btn-group" role="group">' +
+                '<button type="button" class="btn btn-info" onclick="app.detalharCliente(' + cliente.mci + ')">Detalhar</button>' +
+                '<button type="button" class="btn btn-info" onclick="app.colocarClienteEmEdicao(' + cliente.mci + ')">Alterar</button>' +
+                '<button type="button" class="btn btn-danger" onclick="app.excluirCliente(' + cliente.mci + ')">Excluir</button>' +
+                '</div></td></tr>'
+            );
+        });
+    }
+
+    function incluirCliente() {
+        var cliente = {};
+        cliente.nome = $('#inputNome').val().trim();
+
+        if (!cliente.nome) {
+            window.alert('Nome não pode ser vazio!');
+            return;
+        }
+
+        cliente.documento = $('#inputDocumento').val().trim();
+        if (!cliente.documento) {
+            window.alert('Documento não pode ser vazio!');
+            return;
+        }
+
+        $.ajax({
+            url: '/mci-clientes-api/api/clientes',
+            type: 'POST',
+            data: JSON.stringify(cliente),
+            contentType: 'application/json',
+            success: function () {
+                mostrarMensagemSucesso('Cliente incluído com sucesso!');
+                $('#inputNome').val('');
+                $('#inputDocumento').val('');
+                $('#mdlIncluirCliente').modal('hide');
+                init();
+            },
+            error: function () {
+                mostrarMensagemErro('Ocorreu um erro, tente mais tarde...');
+            }
+        });
+    }
+
+    function colocarClienteEmEdicao(mci) {
+        $.get('/mci-clientes-api/api/clientes/' + mci, function (cliente) {
+            clienteEmEdicao = cliente;
+            $('#mciClienteEdicao').text(clienteEmEdicao.mci);
+            $('#inputAlterarNome').val(clienteEmEdicao.nome);
+            $('#inputAlterarDocumento').val(clienteEmEdicao.documento);
+            $('#mdlAlterarCliente').modal('show');
+        });
+    }
+
+    // Nova função
+    function alterarCliente() {
+        clienteEmEdicao.nome = $('#inputAlterarNome').val().trim();
+
+        if (!clienteEmEdicao.nome) {
+            window.alert('Nome não pode ser vazio!');
+            return;
+        }
+
+        clienteEmEdicao.documento = $('#inputAlterarDocumento').val().trim();
+        if (!clienteEmEdicao.documento) {
+            window.alert('Documento não pode ser vazio!');
+            return;
+        }
+
+        $.ajax({
+            url: '/mci-clientes-api/api/clientes/' + clienteEmEdicao.mci,
+            type: 'PUT',
+            data: JSON.stringify(clienteEmEdicao),
+            contentType: 'application/json',
+            success: function () {
+                $('#mdlAlterarCliente').modal('hide');
+                init();
+            }
+        });
+    }
+
+    function excluirCliente(mci) {
+        if (window.confirm('Deseja realmente excluir o cliente?')) {
+            $.ajax({
+                url: '/mci-clientes-api/api/clientes/' + mci,
+                type: 'DELETE',
+                success: function () {
+                    init();
+                }
+            });
+        }
+    }
+
+    return {
+        init: init,
+        detalharCliente: detalharCliente,
+        incluirCliente: incluirCliente,
+        alterarCliente: alterarCliente,
+        colocarClienteEmEdicao: colocarClienteEmEdicao,
+        excluirCliente: excluirCliente
+    };
+})();
+
+app.init();
+```
 
 
