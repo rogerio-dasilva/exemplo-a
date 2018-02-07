@@ -562,7 +562,9 @@ Para usar a validação do AngularJS, precisamos abdicar da validação do html5
 ```
 
 Podemos validar os dados, antes de submeter para a api pelo controller, acessando estes campos especiais.
-- no arquivo edicao.html para cada campo de input adicione o atributo _name_ com o mesmo nome que está no atributo _id_ e adicionamos o atributo required Exemplo:
+
+- no arquivo edicao.html para cada campo de input, adicione o atributo _name_ com o mesmo nome que está no atributo _id_
+- no arquivo edicao.html para cada campo de input, adicionae o atributo required em cada input
 Onde está:
 ```html
 <input type="text" class="form-control" id="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" >
@@ -571,6 +573,43 @@ Ficará:
 ```html
 <input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" required >
 ```
+Exemplo:
+```html
+<div class="row" >
+    <h2 ng-show="!selecionado.mci">Novo</h2>
+    <h2 ng-show="selecionado.mci">Edição</h2>
+</div>
+    
+<form novalidate name="formCliente" ng-submit="salvar()">
+    <div class="form-group" ng-show="selecionado.mci">
+        <label for="inputMci">MCI</label>
+        <br/>{{selecionado.mci}}
+    </div>
+    <div class="form-group">
+        <label for="inputNome">Nome</label>
+        <input type="text" class="form-control" id="inputNome" name="inputNome" placeholder="Digite o nome" ng-model="selecionado.nome" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputDocumento">Documento</label>
+        <input type="text" class="form-control" id="inputDocumento" name="inputDocumento" placeholder="Digite o documento" ng-model="selecionado.documento" required>
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoCodigo">Código do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoCodigo" name="inputTipoDocumentoCodigo" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.codigo" required>
+    </div>
+    <div class="form-group" >
+        <label for="inputTipoDocumentoDescricao">Descrição do tipo de documento</label>
+        <input type="text" class="form-control" id="inputTipoDocumentoDescricao" name="inputTipoDocumentoDescricao" placeholder="Digite o código do tipo de documento" ng-model="selecionado.tipoDocumento.descricao" required>
+    </div>
+    
+    <div class="row">
+	    <span class="btn btn-info" ng-click="voltar()">Voltar</span>
+	    <button type="submit" class="btn btn-primary" >Salvar</button>
+	</div>
+</form>
+```
+
 - Vamos alterar o controlador para ele decidir qual operação realizar e fazer as validaçes. Em clientes.controller.js acrescente:
 ```javascript
 	$scope.salvar = function(){
