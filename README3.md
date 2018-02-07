@@ -213,6 +213,7 @@ Assim vamos substituir o dois campos, Código do Tipo de Documento e Descrição
 	</span>
     </div>
 ```
+- remova a validação ng-pattern da input id="inputDocumento" e o elemento span que exibi sua mensagem;
 - crie novo controlador com arquivo de nome tiposDocumentos.controller.js na pasta webapp/app/controllers e conteúdo:
 ```javascript
 angular.module('clientes').controller('TiposDocumentosController', function($scope, $http, $location, $rootScope) {
@@ -238,6 +239,16 @@ angular.module('clientes').controller('TiposDocumentosController', function($sco
 	$scope.listaTiposDocumentos();
 
 });
+- adicione a importação do novo controller no arquivo index.html < script src="/mci-clientes/app/controllers/tiposDocumentos.controller.js"></script> , logo após a importaçãp de clientes.controller.js
 ```
+- teste a combobox
 
+# Passo 33 - Exercício
+- adicione uma nova service para trabalhar com o Tipo de Documento, com o nome tipoDocumento.servico.js na pasta services.
+- use como exemplo o serviço feito para Clientes e adicione um método para listar os tipos
+- adicione a importação no arquivo index.html
+- altere o controlador tiposDocumentos.controller.js para usar este novo serviço para recuperar os dados da lista de tipos de documentos
+
+# Passo 34 - Usando filtros
+- 
 # Passo 33 - Desafio
