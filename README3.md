@@ -9,7 +9,7 @@
 Para separar a responsabilidade de acessar o end-point REST, com todas as operações disponíveis, vamos separar nosso código em um novo componente chamadado Serviço (Service) no angular.
 - crie uma pasta com nome _services_ dentro de webapp/app/
 - crie novo arquivo de nome clientes.servico.js nesta nova pasta
-- faça importação no index.html o script deste novo componente com < script src="/mci-clientes/app/sevices/clientes.servico.js"></script> logo abaixo da importação de cliente.controller.js
+- faça importação no index.html o script deste novo componente com < script src="/mci-clientes/app/services/clientes.servico.js"></script> logo abaixo da importação de cliente.controller.js
 - colocar o conteúdo de clientes.servico.js
 ```javascript
 angular.module('clientes').factory('ClientesService', function($http){
