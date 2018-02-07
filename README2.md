@@ -714,7 +714,7 @@ Para cada tipo de validação precisamos definir uma mensagem para ser exibida
 
 Agora, atualizando a página de edição, aparecerá a mensagem de obrigatório já na entrada.
 
-Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="formCliente.inputNome.$error.required" para ng-show="formCliente.inputNome.$error.required && ediformCliente.$submitted"
+Se não quisermos este comportamento, e sim validar quando o formulário for submetido? Mudamos ng-show="formCliente.inputNome.$error.required" para ng-show="formCliente.inputNome.$error.required && formCliente.$submitted"
 
 
 # Passo 20 - Exercício
