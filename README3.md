@@ -231,8 +231,8 @@ angular.module('clientes').controller('TiposDocumentosController', function($sco
     
 	$scope.listaTiposDocumentos = function(){
 		$scope.tiposDocumentos = [
-		    {'codigo' : 1, 'descricao': 'RG' },
-		    {'codigo' : 2, 'descricao': 'CPF' }
+		    {'codigo' : 1, 'descricao': 'Registro Geral' },
+		    {'codigo' : 2, 'descricao': 'Cadastro de Pessoa Física' }
 		]
 	}
 
@@ -250,5 +250,64 @@ angular.module('clientes').controller('TiposDocumentosController', function($sco
 - altere o controlador tiposDocumentos.controller.js para usar este novo serviço para recuperar os dados da lista de tipos de documentos
 
 # Passo 34 - Usando filtros
+Podemos transformar a presentação de dados na página através de filtros. 
+
+O angular possui o filtro _uppercase_ que transforma todos os caracteres em maiúsculo.
+
+Esta transformação será aplicada apenas na apresentação e não nos dados do modelo. A sintaxe é: _propriedade_ | _filtro_ : _parametro_. O parâmetro é opcional e depende de cada filtro.
+- altere a página principal.html, colocando após a propriedade item.nome e item.tipoDocumento.descricao o filtro uppercase. {{item.nome | uppercase}} e {{item.tipoDocumento.descricao | uppercase}}
+- veja o resultado na página
+
+O angular possui muitos outros filtros. Por exemplo:
+
+- currency : Formatar um número como moeda;
+- date: Formatar um objeto date num formato especificado.
+- filter: Selecionar items de um array.
+- json: Formatar um objeto em string JSON.
+- limitTo: Limitar um array/string, em um especificado número de elementos/characteres.
+- lowercase: Formatar uma string em caixa baixa.
+- number: Formatar um number para uma string.
+- orderBy: Ordernar um array por uma expressão.
+- uppercase: Formatar uma string em caixa alta.
+
+Vamos adicionar uma propriedade do time Timestamp o objeto cliente para termos uma data de inclusão do cliente
+- adicione uma propriedade (private java.util.Date incluido;) na classe Cliente.java e crie seu setter e getter
+- na classe ClienteDAO.java acrescente no construtor, após o preenchimento dos dois clientes, o preenchimento da data de inclusão:
+```java
+for(Cliente c: listaClientes){
+    c.setIncluido(new Date()));
+}
+```
+- adicione um novo campo no arquivo detalhe.html para exibir a nova propriedade
+- veja o resultado:
+- coloque após o filtro date o formato desejado. Exemplo: {{campo | date : 'dd/MM/yyyy' }}
+
+# Passo 35 - Exercícios
+- no projeto mci-clientes-api acrescente a data de inclusão quando for adicionado novo cliente
+- adicione uma propriedade para data de alteração. Esta data será a mesma na inclusão do cliente, e deve ser atualizada quando realizado a alteração do cadastro. Mostre a data formatada no detalhe.html
+- use um formato que apresente as horas, minutos e segundos para poder ver as modificações no cliente
+- retire a validação de tamanho máximo do campo nome e apresente na lista principal o filtro _limiteTo_ para limitar em até 15 caracteres. O campo nome já tem um filtro, para acrescentar outro adicione a barra | e em seguida coloque o filtro desejado. Procure como usar os parâmetros no filtro.
+# Passo 36 - Filtro personalizado
+- adicione uma nova pasta em webapp/app chamado filters
+- adicione um nova arquivo chamado aspas.filtro.js e acreste a importação em index.html
+- coloque o conteúdo:
+```javascript
+angular.module('clientes').filter('aspas', function() {
+    return function(texto) {
+    	 if (texto) {
+    		return '\"' + texto + '\"';
+    	} else {
+    		return '';
+    	}
+        
+    };
+});
+```
+- coloque o filtro na página principal, no campo documento para apresentá-lo entre aspas: <td>{{item.documento | aspas}} </td>
+# Passo 37 - Exercícios
+- crie um novo filtro que pegue um nome e faça uma sigla com as iniciais de cada parte deste nome, em caixa alta, e aplique na página principal.html no campo nome, no lugar do uppercase e limitTo.
 - 
-# Passo 33 - Desafio
+
+# Passo 38 - Desafio
+
+
