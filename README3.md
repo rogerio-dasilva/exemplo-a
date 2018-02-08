@@ -304,10 +304,13 @@ angular.module('clientes').filter('aspas', function() {
 });
 ```
 - coloque o filtro na página principal, no campo documento para apresentá-lo entre aspas: <td>{{item.documento | aspas}} </td>
-# Passo 37 - Exercícios
+# Passo 37 - Exercício
 - crie um novo filtro que pegue um nome e faça uma sigla com as iniciais de cada parte deste nome, em caixa alta, e aplique na página principal.html no campo nome, no lugar do uppercase e limitTo.
-- 
 
-# Passo 38 - Desafio
-
+# Passo 38 - Desafios Finais
+Utilizando o que aprendemos, vamos aumentar as funcionalidades da aplicação para atender alguns requisitos:
+- acrescente um campo salário no Cliente.java, permitindo informar nas ações do novo cliente e de editar. Apresente no formato de moeda no detalhe do cliente.
+- faça um Resource, Dao e as classes necessárias, na aplicação da mci-clientes-api, para fornecer uma lista de tipos de documentos, via REST e atualize o tipoDocumento.servico.js que consulta a lista para recuperar os dados do projeto dinâmico ao invés dos fixos no código.
+- acrescente no REST a possilibidade de incluir novos tipos de documentos e teste usando o plugin RESTED do Firefox;
+- acrescente uma partial view para fazer o cadastro do tipo de documento. Use as validações que acharem necessárias.
 
