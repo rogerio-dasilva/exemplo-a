@@ -811,184 +811,117 @@ As validações agora serão feitas na própria view
 ```
 - arquivo clientes.controller.js
 ```javascript
-var app = (function (undefined) {
-    'use strict';
-
-    var clienteEmEdicao;
-
-    $(document).ajaxStart(function () {
-        $('#spinner').css('display', 'block');
-    });
-
-    $(document).ajaxStop(function () {
-        $('#spinner').css('display', 'none');
-    });
-
-    function monitorarAlteracoesInput(id, callback) {
-        $('#' + id).bind('propertychange change click keyup input paste', callback);
+angular.module('clientes').controller('ClientesController', function($scope, $http, $location, $rootScope) {
+    $scope.selecionado = {};
+    
+    if($rootScope.selecionado){
+        $scope.selecionado = $rootScope.selecionado;
     }
 
-    function mostrarMensagemSucesso(mensagem) {
-        var id = '#msgSuccess';
-        $(id).text(mensagem);
-        $(id).css('display', 'block');
-        setTimeout(function () {
-            $(id).css('display', 'none');
-        }, 5000);
-    }
+	$scope.lista = function(){
+		$http.get('/mci-clientes-api/api/clientes')
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
 
-    function mostrarMensagemErro(mensagem) {
-        var id = '#msgDanger';
-        $(id).text(mensagem);
-        $(id).css('display', 'block');
-        setTimeout(function () {
-            $(id).css('display', 'none');
-        }, 5000);
-    }
+	}
 
-    function validaIncluirCliente() {
-        var cliente = {};
-        cliente.nome = $('#inputNome').val().trim();
-        cliente.documento = $('#inputDocumento').val().trim();
+	$scope.novo = function(){
+		$rootScope.selecionado = null;
+		$location.url('/edicao');
+	}
 
-        if (cliente.nome && cliente.documento) {
-            $('#btnIncluirCliente').prop('disabled', false);
-        } else {
-            $('#btnIncluirCliente').prop('disabled', true);
-        }
-    }
 
-    function init() {
-        monitorarAlteracoesInput('inputNome', validaIncluirCliente);
-        monitorarAlteracoesInput('inputDocumento', validaIncluirCliente);
+	$scope.voltar = function(){
+		$location.url('/clientes');
+	};
+	
+	$scope.incluir = function(){
+		$http.post('/mci-clientes-api/api/clientes', $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			console.log(JSON.stringify(erro));
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+	}
+	
+	$scope.selecionar = function(cliente){
+		$rootScope.selecionado = cliente;
+		$location.url('/edicao');
+	}
+	
+	$scope.alterar = function(){
+		$http.put('/mci-clientes-api/api/clientes/' + $scope.selecionado.mci, $scope.selecionado)
+		.success(function(retorno){
+			$scope.clientes = retorno.listaClientes;
+			$scope.lista();
+			$location.url('/clientes');
+		}).error(function(erro){
+			var id = '#msgDanger';
+	        $(id).text(erro);
+	        $(id).css('display', 'block');
+	        setTimeout(function () {
+	            $(id).css('display', 'none');
+	        }, 5000);
+		});
+		
+	}
+	
+	 $scope.detalhar = function(cliente){
+	        $rootScope.selecionado = cliente;
+	        $location.url('/detalhe');
+	    };
+	    
+	    $scope.confirmarExclusao = function(cliente){
+	        $rootScope.selecionado = cliente;
+	        $location.url('/exclusao');
+	    };
+	 
+	$scope.excluir = function(){
+	        $http.delete('/mci-clientes-api/api/clientes/' + $scope.selecionado.mci)
+	        .success(function(retorno){
+	            $scope.clientes = retorno.listaClientes;
+	            $scope.lista();
+	            $location.url('/clientes');
+	        }).error(function(erro){
+	            console.log(JSON.stringify(erro));
+	            var id = '#msgDanger';
+	            $(id).text(erro);
+	            $(id).css('display', 'block');
+	            setTimeout(function () {
+	                $(id).css('display', 'none');
+	            }, 5000);
+	        });
+	       
+	    }
+	
+	$scope.salvar = function(){
+		if($scope.selecionado.mci){
+			$scope.alterar();
+		} else {
+			$scope.incluir();
+		}
+	}
 
-        recuperaClientes(function (resposta) {
-            atualizaListaClientes(resposta.listaClientes);
-        });
-    }
+	$scope.lista();
 
-    function recuperaClientes(callback) {
-        $.get('/mci-clientes-api/api/clientes', callback);
-    }
-
-    function detalharCliente(mci) {
-        $.get('/mci-clientes-api/api/clientes/' + mci, function (cliente) {
-            $('#tblDetalhaCliente tbody').empty();
-            $('#tblDetalhaCliente tbody').append(
-                '<tr><td>' + cliente.mci + '</td><td>' + cliente.nome + '</td><td>' + cliente.documento + '</td></tr>'
-            );
-            $('#mdlDetalhaCliente').modal('show');
-        });
-    }
-
-    function atualizaListaClientes(clientes) {
-        $('#tblClientes tbody').empty();
-        clientes.forEach(function (cliente) {
-            $('#tblClientes tbody').append(
-                '<tr><td>' + cliente.mci + '</td>' +
-                '<td>' + cliente.nome + '</td>' +
-                '<td><div class="btn-group" role="group">' +
-                '<button type="button" class="btn btn-info" onclick="app.detalharCliente(' + cliente.mci + ')">Detalhar</button>' +
-                '<button type="button" class="btn btn-info" onclick="app.colocarClienteEmEdicao(' + cliente.mci + ')">Alterar</button>' +
-                '<button type="button" class="btn btn-danger" onclick="app.excluirCliente(' + cliente.mci + ')">Excluir</button>' +
-                '</div></td></tr>'
-            );
-        });
-    }
-
-    function incluirCliente() {
-        var cliente = {};
-        cliente.nome = $('#inputNome').val().trim();
-
-        if (!cliente.nome) {
-            window.alert('Nome não pode ser vazio!');
-            return;
-        }
-
-        cliente.documento = $('#inputDocumento').val().trim();
-        if (!cliente.documento) {
-            window.alert('Documento não pode ser vazio!');
-            return;
-        }
-
-        $.ajax({
-            url: '/mci-clientes-api/api/clientes',
-            type: 'POST',
-            data: JSON.stringify(cliente),
-            contentType: 'application/json',
-            success: function () {
-                mostrarMensagemSucesso('Cliente incluído com sucesso!');
-                $('#inputNome').val('');
-                $('#inputDocumento').val('');
-                $('#mdlIncluirCliente').modal('hide');
-                init();
-            },
-            error: function () {
-                mostrarMensagemErro('Ocorreu um erro, tente mais tarde...');
-            }
-        });
-    }
-
-    function colocarClienteEmEdicao(mci) {
-        $.get('/mci-clientes-api/api/clientes/' + mci, function (cliente) {
-            clienteEmEdicao = cliente;
-            $('#mciClienteEdicao').text(clienteEmEdicao.mci);
-            $('#inputAlterarNome').val(clienteEmEdicao.nome);
-            $('#inputAlterarDocumento').val(clienteEmEdicao.documento);
-            $('#mdlAlterarCliente').modal('show');
-        });
-    }
-
-    // Nova função
-    function alterarCliente() {
-        clienteEmEdicao.nome = $('#inputAlterarNome').val().trim();
-
-        if (!clienteEmEdicao.nome) {
-            window.alert('Nome não pode ser vazio!');
-            return;
-        }
-
-        clienteEmEdicao.documento = $('#inputAlterarDocumento').val().trim();
-        if (!clienteEmEdicao.documento) {
-            window.alert('Documento não pode ser vazio!');
-            return;
-        }
-
-        $.ajax({
-            url: '/mci-clientes-api/api/clientes/' + clienteEmEdicao.mci,
-            type: 'PUT',
-            data: JSON.stringify(clienteEmEdicao),
-            contentType: 'application/json',
-            success: function () {
-                $('#mdlAlterarCliente').modal('hide');
-                init();
-            }
-        });
-    }
-
-    function excluirCliente(mci) {
-        if (window.confirm('Deseja realmente excluir o cliente?')) {
-            $.ajax({
-                url: '/mci-clientes-api/api/clientes/' + mci,
-                type: 'DELETE',
-                success: function () {
-                    init();
-                }
-            });
-        }
-    }
-
-    return {
-        init: init,
-        detalharCliente: detalharCliente,
-        incluirCliente: incluirCliente,
-        alterarCliente: alterarCliente,
-        colocarClienteEmEdicao: colocarClienteEmEdicao,
-        excluirCliente: excluirCliente
-    };
-})();
-
-app.init();
+});
 ```
 
 
