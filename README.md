@@ -15,16 +15,16 @@ Apos termino da importação faça
 - adicione antes da ultima tag project od arquivo pom.xml
 ```xml
 <build>
-		<plugins>
-			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-		</plugins>
-	</build>
+	<plugins>
+		<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-war-plugin</artifactId>
+        		<configuration>
+          			<failOnMissingWebXml>false</failOnMissingWebXml>
+        		</configuration>
+		</plugin>
+	</plugins>
+</build>
 ```
 - preencha em goals: clean package
 - selecione: skip tests
@@ -42,6 +42,61 @@ No eclipse adicione o tomcat
 - clique em browse e procure a pasta /kdi/apache-tomcat-7.0.68 e clique em OK -> Finish -> OK
 - procure a aba Servers e clique para adicionar um servidor
 - escolha Tomcat 7 e next e finish
+
+## Corrigir bug - Quando lista contém apenas um elemento o json com array é serializado sem as chaves "[" e "]"
+
+Altere o arquivo web.xml. Acrescente após 
+
+```xml
+<init-param>
+	<param-name>com.sun.jersey.config.property.packages</param-name>
+	<param-value>br.com.bb.mci;org.codehaus.jackson.jaxrs</param-value>
+</init-param>
+```
+Adiciona a classe abaixo no pacote br.com.bb.mci:
+```java
+package br.com.bb.mci;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+@Provider
+@Produces("application/json")
+public class JsonMessageBodyWriter implements MessageBodyWriter<Object> {
+
+	public long getSize(Object arg0, Class<?> arg1, Type arg2,
+			Annotation[] arg3, MediaType arg4) {
+
+		return -1;
+	}
+
+	public boolean isWriteable(Class<?> arg0, Type arg1, Annotation[] arg2,
+			MediaType arg3) {
+
+		return true;
+	}
+
+	public void writeTo(Object target, Class<?> arg1, Type arg2,
+			Annotation[] arg3, MediaType arg4,
+			MultivaluedMap<String, Object> arg5, OutputStream outputStream)
+			throws IOException, WebApplicationException {
+
+		new ObjectMapper().writeValue(outputStream, target);
+	}
+
+}
+```
 
 # Passo 2 - Testando a aplicação
 Adicione a aplicação
