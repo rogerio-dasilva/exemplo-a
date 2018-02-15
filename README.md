@@ -45,7 +45,7 @@ No eclipse adicione o tomcat
 
 ## Corrigir bug - Quando lista contém apenas um elemento o json com array é serializado sem as chaves "[" e "]"
 
-Altere o arquivo web.xml. Acrescente após 
+- altere o arquivo web.xml. Acrescente após < display-name>mci-clientes-api</display-name> a configuração:
 
 ```xml
 <init-param>
@@ -53,7 +53,7 @@ Altere o arquivo web.xml. Acrescente após
 	<param-value>br.com.bb.mci;org.codehaus.jackson.jaxrs</param-value>
 </init-param>
 ```
-Adiciona a classe abaixo no pacote br.com.bb.mci:
+- adicione a classe abaixo no pacote _br.com.bb.mci_:
 ```java
 package br.com.bb.mci;
 
