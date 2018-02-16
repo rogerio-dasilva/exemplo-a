@@ -44,15 +44,6 @@ No eclipse adicione o tomcat
 - escolha Tomcat 7 e next e finish
 
 ## Corrigir bug - Quando lista contém apenas um elemento o json com array é serializado sem as chaves "[" e "]"
-
-- altere o arquivo web.xml. Acrescente após < display-name>mci-clientes-api</display-name> a configuração:
-
-```xml
-<init-param>
-	<param-name>com.sun.jersey.config.property.packages</param-name>
-	<param-value>br.com.bb.mci;org.codehaus.jackson.jaxrs</param-value>
-</init-param>
-```
 - adicione a classe abaixo no pacote _br.com.bb.mci_:
 ```java
 package br.com.bb.mci;
