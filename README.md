@@ -759,5 +759,5 @@ public class Cliente {
 ```
 
 # Fontes para consulta
-- Guie de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md, e em português https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
+- Guia de Estilo https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md, e em português https://github.com/johnpapa/angular-styleguide/blob/master/a1/i18n/pt-BR.md
 - Canal YouTube https://www.youtube.com/user/rodrigobranas
